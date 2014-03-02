@@ -22,6 +22,5 @@ public class AddBodyCommand implements ZnakeCommand {
     
     @Override
     public void execute() {
-        
     }
 }
