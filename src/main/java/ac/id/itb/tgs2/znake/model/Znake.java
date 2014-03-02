@@ -25,11 +25,8 @@ public class Znake implements ZnakeConstants {
 
     }
 
-    public void generateBody(Point headPosition) {
-
-    }
-
-    public void generateBody(Point headPosition, int znakeLength) {
+    public void generateBody(int x, int y) {
+        generateBody(x, y, ZnakeConstants.DEFAULT_SNAKE_LENGTH);
     }
 
     public void generateBody(int x, int y, int znakeLength) {

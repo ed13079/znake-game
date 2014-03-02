@@ -6,6 +6,7 @@
 package ac.id.itb.tgs2.znake.view;
 
 import ac.id.itb.tgs2.znake.ZnakeConstants;
+import ac.id.itb.tgs2.znake.controller.ZnakeController;
 import ac.id.itb.tgs2.znake.model.Znake;
 import ac.id.itb.tgs2.znake.model.ZnakeBodyPart;
 import info.clearthought.layout.TableLayout;
@@ -21,9 +22,7 @@ import javax.swing.SwingWorker;
 public class ZnakeView extends javax.swing.JFrame {
 
     Znake znake;
-    SwingWorker<String, Void> znakeThread;
-    volatile int direction = ZnakeConstants.EAST;
-    volatile boolean running = true;
+    private ZnakeController engine;
     KeyAdapter keyAdapter;
 
     /**
@@ -54,84 +53,45 @@ public class ZnakeView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void initializeComponents() {
-        znake = new Znake();
-        znake.generateBody(7, 3, 3);
-
-        double[][] size = new double[2][];
-        size[0] = new double[ZnakeConstants.BOARD_WIDTH];
-        size[1] = new double[ZnakeConstants.BOARD_HEIGHT];
-        for (int i = 0; i < ZnakeConstants.BOARD_WIDTH; i++) {
-            size[0][i] = 10;
-        }
-        for (int i = 0; i < ZnakeConstants.BOARD_HEIGHT; i++) {
-            size[1][i] = 10;
-        }
-        jPanel1.setLayout(new TableLayout(size));
-
-        for (int i = 0; i < znake.getZnakeBodyParts().size(); i++) {
-            ZnakeBodyPart zbp = znake.getZnakeBodyParts().get(i);
-            jPanel1.add(
-                zbp,
-                String.format("%s, %s", zbp.getPosition().x, zbp.getPosition().y)
-            );
-        }
+        engine = new ZnakeController();
 
         keyAdapter = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP:
-                        if (direction != ZnakeConstants.NORTH && direction != ZnakeConstants.SOUTH) {
-                            direction = ZnakeConstants.NORTH;
+                        if (engine.getDirection() != ZnakeConstants.NORTH && 
+                            engine.getDirection() != ZnakeConstants.SOUTH) {
+                            engine.setDirection(ZnakeConstants.NORTH);
                         }
                         break;
                     case KeyEvent.VK_RIGHT:
-                        if (direction != ZnakeConstants.WEST && direction != ZnakeConstants.EAST) {
-                            direction = ZnakeConstants.EAST;
+                        if (engine.getDirection() != ZnakeConstants.WEST && 
+                            engine.getDirection() != ZnakeConstants.EAST) {
+                            engine.setDirection(ZnakeConstants.EAST);
                         }
                         break;
                     case KeyEvent.VK_DOWN:
-                        if (direction != ZnakeConstants.NORTH && direction != ZnakeConstants.SOUTH) {
-                            direction = ZnakeConstants.SOUTH;
+                        if (engine.getDirection() != ZnakeConstants.NORTH &&
+                            engine.getDirection() != ZnakeConstants.SOUTH) {
+                            engine.setDirection(ZnakeConstants.SOUTH);
                         }
                         break;
                     case KeyEvent.VK_LEFT:
-                        if (direction != ZnakeConstants.WEST && direction != ZnakeConstants.EAST) {
-                            direction = ZnakeConstants.WEST;
+                        if (engine.getDirection() != ZnakeConstants.WEST &&
+                            engine.getDirection() != ZnakeConstants.EAST) {
+                            engine.setDirection(ZnakeConstants.WEST);
                         }
                         break;
                 }
             }
         };
         addKeyListener(keyAdapter);
-
-        znakeThread = new SwingWorker<String, Void>() {
-
-            @Override
-            protected String doInBackground() throws Exception {
-                while (running) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                    }
-                    znake.move(direction);
-                    jPanel1.removeAll();
-                    for (int i = 0; i < znake.getZnakeBodyParts().size(); i++) {
-                        ZnakeBodyPart zbp = znake.getZnakeBodyParts().get(i);
-                        jPanel1.add(
-                            zbp,
-                            String.format("%s, %s", zbp.getPosition().x, zbp.getPosition().y)
-                        );
-                    }
-                    //jPanel1.repaint();
-                    jPanel1.revalidate();
-                    System.out.println("========================================");
-                    znake.printBodyParts();
-                }
-                return null;
-            }
-        };
-        znakeThread.execute();
+        
+        this.add(engine.getPanel());
+        
+        engine.run();
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

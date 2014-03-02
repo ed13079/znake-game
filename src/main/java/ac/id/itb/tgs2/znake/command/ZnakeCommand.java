@@ -4,19 +4,14 @@
  * and open the template in the editor.
  */
 
-package ac.id.itb.tgs2.znake.utilities;
-
-import ac.id.itb.tgs2.znake.model.Znake;
+package ac.id.itb.tgs2.znake.command;
 
 /**
  *
- * @author edbert
+ * @author wirasta1330
  */
-public class ZnakeOperation {
+public interface ZnakeCommand {
     
-    public ZnakeOperation() { }
+    void execute();
     
-    public void plusScore() {
-        
-    }
 }

@@ -26,12 +26,16 @@ public class ZnakeController {
     private Znake znake;
     private volatile boolean running;
     private volatile int direction;
+    private int speed = 100;
     
     public ZnakeController() {
         initializeComponents();
     }
     
     private void initializeComponents() {
+        znake = new Znake();
+        znake.generateBody(6, 6);
+        direction = ZnakeConstants.EAST;
         board = new JPanel();
         double[][] size = new double[2][];
         size[0] = new double[ZnakeConstants.BOARD_WIDTH];
@@ -50,7 +54,7 @@ public class ZnakeController {
             public String doInBackground() {
                 while (running) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(speed);
                     } catch (InterruptedException e) {
                     }
                     znake.move(direction);
@@ -62,21 +66,30 @@ public class ZnakeController {
                             String.format("%s, %s", zbp.getPosition().x, zbp.getPosition().y)
                         );
                     }
-                    //jPanel1.repaint();
+                    board.repaint();
                     board.revalidate();
-                    System.out.println("========================================");
-                    znake.printBodyParts();
+//                    System.out.println("========================================");
+//                    znake.printBodyParts();
                 }
                 return null;
             }
         };
     }
     
-    public void initializeBoard() {
-        
-    }
-    
     public JPanel getPanel() {
         return board;
+    }
+    
+    public int getDirection() {
+        return direction;
+    }
+    
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+    
+    public void run() {
+        running = true;
+        threadMove.execute();
     }
 }
