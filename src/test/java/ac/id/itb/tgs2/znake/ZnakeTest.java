@@ -6,6 +6,7 @@
 
 package ac.id.itb.tgs2.znake;
 
+import ac.id.itb.tgs2.znake.model.Znake;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;

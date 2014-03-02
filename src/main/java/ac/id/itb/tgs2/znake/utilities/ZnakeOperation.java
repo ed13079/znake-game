@@ -4,16 +4,19 @@
  * and open the template in the editor.
  */
 
-package ac.id.itb.tgs2.znake;
+package ac.id.itb.tgs2.znake.utilities;
 
-import java.awt.Point;
+import ac.id.itb.tgs2.znake.model.Znake;
 
 /**
  *
  * @author edbert
  */
-public interface ZnakeElement {
+public class ZnakeOperation {
     
-    Point getPosition();
+    public ZnakeOperation() { }
     
+    public void plusScore(int score) {
+        
+    }
 }

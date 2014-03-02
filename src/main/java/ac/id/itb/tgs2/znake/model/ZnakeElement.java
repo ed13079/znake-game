@@ -4,12 +4,16 @@
  * and open the template in the editor.
  */
 
-package ac.id.itb.tgs2.znake;
+package ac.id.itb.tgs2.znake.model;
+
+import java.awt.Point;
 
 /**
  *
- * @author Edbert
+ * @author edbert
  */
-public class FoodFactory {
+public interface ZnakeElement {
+    
+    Point getPosition();
     
 }

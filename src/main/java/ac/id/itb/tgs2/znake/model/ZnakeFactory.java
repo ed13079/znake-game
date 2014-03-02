@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package ac.id.itb.tgs2.znake;
+package ac.id.itb.tgs2.znake.model;
 
+import ac.id.itb.tgs2.znake.model.Znake;
 import java.awt.Point;
 
 /**

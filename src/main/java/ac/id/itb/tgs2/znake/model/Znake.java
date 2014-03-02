@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ac.id.itb.tgs2.znake;
+package ac.id.itb.tgs2.znake.model;
 
+import ac.id.itb.tgs2.znake.ZnakeConstants;
 import java.awt.Point;
 import java.util.*;
 

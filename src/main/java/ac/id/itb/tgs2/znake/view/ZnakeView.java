@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ac.id.itb.tgs2.znake;
+package ac.id.itb.tgs2.znake.view;
 
+import ac.id.itb.tgs2.znake.ZnakeConstants;
+import ac.id.itb.tgs2.znake.model.Znake;
+import ac.id.itb.tgs2.znake.model.ZnakeBodyPart;
 import info.clearthought.layout.TableLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

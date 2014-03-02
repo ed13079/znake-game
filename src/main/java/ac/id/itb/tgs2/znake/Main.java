@@ -1,5 +1,7 @@
 package ac.id.itb.tgs2.znake;
 
+import ac.id.itb.tgs2.znake.view.ZnakeView;
+
 /**
  * Hello world!
  *

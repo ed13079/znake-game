@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ac.id.itb.tgs2.znake;
+package ac.id.itb.tgs2.znake.model;
 
 import java.awt.Point;
 
