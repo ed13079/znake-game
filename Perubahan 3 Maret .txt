@@ -1,0 +1,89 @@
+2 Maret 2014
+Bagian yang sudah dirubah :
+- Kelas Constan
+- Kelas Food
+- Kelas Default Food
+- Kelas Extra Food
+- Kelas Effect
+- Kelas Food Factori
+- Snake
+- struktur package nya^^, biar sesuai dengan model, view dan controler plus utilities
+
+>> Kelas constan dibuat interface
+
+>> food dirubah ke interface (ngacu ke ebook) :
+- extend Jpanel dihilangkan karena berhubungan dengan GUI harus dipisahkan dengan GUI dan logika program
+- implement Z elemen buat apah ya?, langsung aja buat method get position 
+
+>> kelas effect addatribut effect Name
+
+>> Kelas food dan extra food :
+- tambah atribut effect dan Position
+- ditambahkan proses bikin position di food bukan di controler karena create food dimana aja berbeda dengan snake ketika inisialisasi
+
+>> food factory
+- sudah ditambahkan flyweight pattern dan create food, factori pattern
+
+>> snake sudah di buat singletont
+- dibuat private custructornya
+- new instace sebagai private atribut
+
+>> Kelas Controler
+- dibagian create food
+- bagian yang berhubungan dengan snake, karena ada perubahan sedikit
+
+=====================================================================
+Comentar Codingan
+
+Perubahan tadi sudah sesuai dengan desain dan pattern yang kita bahas.
+ada beberapa bagian code edbert yang agak kurang tepat dengan desain pattern nya.
+jadi q rubah struktur pakage nya juga, disarankan GUI dan proses sebaiknya dipisah.
+tapi overall, kerjaan edbert sudah bagus ^^. Q review sesuai dengan model dan desain
+
+==================================================================
+Q belum periksa beberapa Kelas
+1. Kelas GUI
+2. Kelas Player
+3. Kelas dataBase
+4. Kelas Broker
+5. Kelas Operation
+6. Kelas Command
+7. Kelas addBody
+8. Kelas sub body
+9. kelas reversedirection
+10. kelas plusScore
+11. Kelas decreaseSpeed
+12. Kelas move2an
+13. Kelas plusScore
+
+Note : nanti senin malam Q periksa Lagi (tgl 3 Maret)
+
+kl mw kasih saran silahkan silahkan^^
+===========================================================================
+Pembagian kelas saat ini sesuai kemampuan ^^, deadline minggu tanggal 10 sudah selesai semua untuk iterative pertama
+
+Pak Ade : Kelas DataBase dan Player
+>> data base bisa save game by player
+>> data base bisa load game by player
+>> database simpan nama dan score
+>> data base history score
+
+wendy : FoodFactory, Food, Effect, DefaultFood, ExtraFood
+
+GUI, Controler, Snake, Constans (Bisa Edbert atau Asri, Mw pilih yg mana ?)
+Comman, addBody, subBody, reverseArah, rincreaseSpeed, decreaseSpeed dan plusScore (Bisa Edbert atau Asri, Mw pilih yg mana ?)
+
+oia yang autornya blm diubah.. nanti diubah sesuai dengan pembagian nya yaa
+Q sama edbert buat class diagram nya aja >> sebagian sudah ada yang diisi sebagian belum..
+
+nanti deh finalnya senin malam. bsk Q mw ngerjain visdat hehe
+kl ada saran silahkan..
+
+============================================================================
+Untuk iteratif dua
+
+1. rencana mw buat multiplayer asalkan sudah bener yang single player
+2. rencana mw dibuat di aplikasi mobile (kl g bisa ya dektop aja)
+3. rencana mw ada labirin (bentuk arena) : kl g bisa ya gpp
+
+nanti qt bahas hari selasa tgl 4 Maret
