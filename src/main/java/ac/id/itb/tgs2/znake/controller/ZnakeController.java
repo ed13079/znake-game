@@ -13,7 +13,6 @@ import ac.id.itb.tgs2.znake.model.factory.FoodFactory;
 import ac.id.itb.tgs2.znake.model.factory.ZnakeFactory;
 import ac.id.itb.tgs2.znake.utilities.*;
 import ac.id.itb.tgs2.znake.view.*;
-import info.clearthought.layout.TableLayout;
 import java.awt.LayoutManager;
 import java.util.Random;
 import javax.swing.*;
@@ -30,7 +29,7 @@ public class ZnakeController {
     private Znake znake;
     private ZnakeOperation operation;
     private FoodFactory foodFactory;
-    private ZnakeElement[][] virtualBoard;
+    //private ZnakeElement[][] virtualBoard;
     private Random random;
     
     private volatile boolean running;
@@ -50,20 +49,31 @@ public class ZnakeController {
         znake = ZnakeFactory.createZnake(7, 7);
         direction = ZnakeConstants.EAST;
         board = new JPanel();
-        virtualBoard = 
-            new ZnakeElement[ZnakeConstants.BOARD_HEIGHT][ZnakeConstants.BOARD_WIDTH];
+//        virtualBoard = 
+//            new ZnakeElement[ZnakeConstants.BOARD_HEIGHT][ZnakeConstants.BOARD_WIDTH];
+//        
+//        double[][] size = new double[2][];
+//        size[0] = new double[ZnakeConstants.BOARD_WIDTH];
+//        size[1] = new double[ZnakeConstants.BOARD_HEIGHT];
+//        for (int i = 0; i < ZnakeConstants.BOARD_WIDTH; i++) {
+//            size[0][i] = ZnakeConstants.CELL_WIDTH;
+//        }
+//        for (int i = 0; i < ZnakeConstants.BOARD_HEIGHT; i++) {
+//            size[1][i] = ZnakeConstants.CELL_HEIGHT;
+//        }
+//        layout = new TableLayout(size);
+//        board.setLayout(layout);
         
-        double[][] size = new double[2][];
-        size[0] = new double[ZnakeConstants.BOARD_WIDTH];
-        size[1] = new double[ZnakeConstants.BOARD_HEIGHT];
-        for (int i = 0; i < ZnakeConstants.BOARD_WIDTH; i++) {
-            size[0][i] = ZnakeConstants.CELL_WIDTH;
+        board.setLayout(null);
+        for (ZnakeBodyPart zbp : znake.getZnakeBodyParts()) {
+            zbp.setBounds(
+                zbp.getPosition().x * ZnakeConstants.CELL_WIDTH,
+                zbp.getPosition().y * ZnakeConstants.CELL_HEIGHT,
+                    ZnakeConstants.CELL_WIDTH,
+                    ZnakeConstants.CELL_HEIGHT
+            );
+            board.add(zbp);
         }
-        for (int i = 0; i < ZnakeConstants.BOARD_HEIGHT; i++) {
-            size[1][i] = ZnakeConstants.CELL_HEIGHT;
-        }
-        layout = new TableLayout(size);
-        board.setLayout(layout);
         
         threadMove = new SwingWorker<String, Void>() {
             @Override
@@ -74,13 +84,20 @@ public class ZnakeController {
                     } catch (InterruptedException e) {
                     }
                     znake.move(getDirection());
-                    board.removeAll();
+//                    board.removeAll();
                     for (int i = 0; i < znake.getZnakeBodyParts().size(); i++) {
                         ZnakeBodyPart zbp = znake.getZnakeBodyParts().get(i);
-                        board.add(zbp, String.format(
-                            "%s, %s",
-                            zbp.getPosition().x,
-                            zbp.getPosition().y));
+//                        board.add(zbp, String.format(
+//                            "%s, %s",
+//                            zbp.getPosition().x,
+//                            zbp.getPosition().y));
+                        zbp.setBounds(
+                            zbp.getPosition().x * ZnakeConstants.CELL_WIDTH,
+                            zbp.getPosition().y * ZnakeConstants.CELL_HEIGHT,
+                                ZnakeConstants.CELL_WIDTH,
+                                ZnakeConstants.CELL_HEIGHT
+                        );
+//                        board.add(zbp);
                     }
                     //board.repaint();
                     board.revalidate();

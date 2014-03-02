@@ -10,7 +10,6 @@ import ac.id.itb.tgs2.znake.command.*;
 import ac.id.itb.tgs2.znake.controller.ZnakeController;
 import ac.id.itb.tgs2.znake.model.Znake;
 import ac.id.itb.tgs2.znake.model.ZnakeBodyPart;
-import info.clearthought.layout.TableLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
