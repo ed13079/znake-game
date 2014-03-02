@@ -21,6 +21,8 @@ public interface ZnakeConstants {
     // Znake
     static final int DEFAULT_SNAKE_LENGTH = 5;
     static final int DEFAULT_SPEED_1 = 500;
+    static final int DEFAULT_SCORE = 5;
+    static final int DEFAULT_EXTRA_TIME_REMAINING = 10000; // in miliseconds
     
     // Direction
     static final int NORTH = 0;

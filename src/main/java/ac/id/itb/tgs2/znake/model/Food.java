@@ -12,9 +12,9 @@ import java.awt.Point;
  *
  * @author Edbert
  */
-public class Food implements ZnakeElement {
+public abstract class Food implements ZnakeElement {
     
-    private Point position;
+    protected Point position;
     
     public Food() {
     }
@@ -26,5 +26,17 @@ public class Food implements ZnakeElement {
     
     public void setPosition(Point position) {
         this.position = position;
+    }
+    
+    public int getScore() {
+        return getEffect().getScore();
+    }
+    
+    public abstract Effect getEffect();
+    public abstract String getName();
+    
+    @Override
+    public String toString() {
+        return "Food { Name: " + getName() + ", Score: " + getScore() + " }";
     }
 }
