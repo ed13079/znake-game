@@ -6,6 +6,7 @@
 package ac.id.itb.tgs2.znake.view;
 
 import ac.id.itb.tgs2.znake.ZnakeConstants;
+import ac.id.itb.tgs2.znake.command.*;
 import ac.id.itb.tgs2.znake.controller.ZnakeController;
 import ac.id.itb.tgs2.znake.model.Znake;
 import ac.id.itb.tgs2.znake.model.ZnakeBodyPart;
@@ -21,9 +22,8 @@ import javax.swing.SwingWorker;
  */
 public class ZnakeView extends javax.swing.JFrame {
 
-    Znake znake;
     private ZnakeController engine;
-    KeyAdapter keyAdapter;
+    private KeyAdapter keyAdapter;
 
     /**
      * Creates new form ZnakeView
@@ -58,32 +58,24 @@ public class ZnakeView extends javax.swing.JFrame {
         keyAdapter = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
+                ZnakeCommand cmd;
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP:
-                        if (engine.getDirection() != ZnakeConstants.NORTH && 
-                            engine.getDirection() != ZnakeConstants.SOUTH) {
-                            engine.setDirection(ZnakeConstants.NORTH);
-                        }
+                        cmd = new MoveUpCommand(engine);
                         break;
                     case KeyEvent.VK_RIGHT:
-                        if (engine.getDirection() != ZnakeConstants.WEST && 
-                            engine.getDirection() != ZnakeConstants.EAST) {
-                            engine.setDirection(ZnakeConstants.EAST);
-                        }
+                        cmd = new MoveRightCommand(engine);
                         break;
                     case KeyEvent.VK_DOWN:
-                        if (engine.getDirection() != ZnakeConstants.NORTH &&
-                            engine.getDirection() != ZnakeConstants.SOUTH) {
-                            engine.setDirection(ZnakeConstants.SOUTH);
-                        }
+                        cmd = new MoveDownCommand(engine);
                         break;
                     case KeyEvent.VK_LEFT:
-                        if (engine.getDirection() != ZnakeConstants.WEST &&
-                            engine.getDirection() != ZnakeConstants.EAST) {
-                            engine.setDirection(ZnakeConstants.WEST);
-                        }
+                        cmd = new MoveLeftCommand(engine);
                         break;
+                    default:
+                        cmd = new MoveCommand(engine);
                 }
+                cmd.execute();
             }
         };
         addKeyListener(keyAdapter);

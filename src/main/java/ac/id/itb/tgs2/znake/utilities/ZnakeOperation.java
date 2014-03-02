@@ -12,11 +12,13 @@ import ac.id.itb.tgs2.znake.model.Znake;
  *
  * @author edbert
  */
-public class ZnakeOperation {
+public interface ZnakeOperation {
     
-    public ZnakeOperation() { }
-    
-    public void plusScore() {
-        
-    }
+    void plusScore(int score);
+    void increaseSpeed(int speed);
+    void decreaseSpeed(int speed);
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
 }
