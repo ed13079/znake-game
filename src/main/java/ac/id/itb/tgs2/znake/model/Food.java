@@ -7,12 +7,13 @@
 package ac.id.itb.tgs2.znake.model;
 
 import java.awt.Point;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Edbert
  */
-public abstract class Food implements ZnakeElement {
+public abstract class Food extends JPanel implements ZnakeElement {
     
     protected Point position;
     
@@ -33,10 +34,11 @@ public abstract class Food implements ZnakeElement {
     }
     
     public abstract Effect getEffect();
-    public abstract String getName();
+    public abstract String getFoodName();
     
-    @Override
-    public String toString() {
-        return "Food { Name: " + getName() + ", Score: " + getScore() + " }";
-    }
+//    @Override
+//    public String toString() {
+//        return "Food { Name: " + getFoodName() + ", Score: " + getScore() + " }";
+//    }
+    
 }

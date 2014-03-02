@@ -28,7 +28,8 @@ public class ExtraFood extends Food {
     }
     
     @Override
-    public String getName() {
+    public String getFoodName() {
         return "Extra Food";
     }
+    
 }

@@ -9,11 +9,13 @@ package ac.id.itb.tgs2.znake.controller;
 import ac.id.itb.tgs2.znake.ZnakeConstants;
 import ac.id.itb.tgs2.znake.command.MoveUpCommand;
 import ac.id.itb.tgs2.znake.model.*;
+import ac.id.itb.tgs2.znake.model.factory.FoodFactory;
 import ac.id.itb.tgs2.znake.model.factory.ZnakeFactory;
 import ac.id.itb.tgs2.znake.utilities.*;
 import ac.id.itb.tgs2.znake.view.*;
 import info.clearthought.layout.TableLayout;
 import java.awt.LayoutManager;
+import java.util.Random;
 import javax.swing.*;
 
 /**
@@ -27,9 +29,12 @@ public class ZnakeController {
     private SwingWorker<String, Void> threadMove;
     private Znake znake;
     private ZnakeOperation operation;
+    private FoodFactory foodFactory;
+    private ZnakeElement[][] virtualBoard;
+    private Random random;
+    
     private volatile boolean running;
     private volatile int direction;
-    private int speed;
     
     private final Object dirObj = new Object();
     
@@ -45,6 +50,9 @@ public class ZnakeController {
         znake = ZnakeFactory.createZnake(7, 7);
         direction = ZnakeConstants.EAST;
         board = new JPanel();
+        virtualBoard = 
+            new ZnakeElement[ZnakeConstants.BOARD_HEIGHT][ZnakeConstants.BOARD_WIDTH];
+        
         double[][] size = new double[2][];
         size[0] = new double[ZnakeConstants.BOARD_WIDTH];
         size[1] = new double[ZnakeConstants.BOARD_HEIGHT];
@@ -69,12 +77,12 @@ public class ZnakeController {
                     board.removeAll();
                     for (int i = 0; i < znake.getZnakeBodyParts().size(); i++) {
                         ZnakeBodyPart zbp = znake.getZnakeBodyParts().get(i);
-                        board.add(
-                            zbp,
-                            String.format("%s, %s", zbp.getPosition().x, zbp.getPosition().y)
-                        );
+                        board.add(zbp, String.format(
+                            "%s, %s",
+                            zbp.getPosition().x,
+                            zbp.getPosition().y));
                     }
-                    board.repaint();
+                    //board.repaint();
                     board.revalidate();
 //                    System.out.println("========================================");
 //                    znake.printBodyParts();
@@ -84,10 +92,25 @@ public class ZnakeController {
         };
     }
     
+    /**
+     * Menjalankan engine Znake.
+     */
     public void run() {
         running = true;
         threadMove.execute();
     }
+    
+    public void generateFood() {
+        int foodXPos = random.nextInt(ZnakeConstants.BOARD_WIDTH);
+        int foodYPos = random.nextInt(ZnakeConstants.BOARD_HEIGHT);
+        Food food;
+        boolean addFoodAllowed = false;
+        
+        do {
+            food = FoodFactory.createDefaultFood(foodXPos, foodYPos);
+        } while (!addFoodAllowed);
+    }
+    
     
     /*
      * Getter and setter

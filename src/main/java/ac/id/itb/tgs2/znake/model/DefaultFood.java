@@ -7,6 +7,7 @@
 package ac.id.itb.tgs2.znake.model;
 
 import ac.id.itb.tgs2.znake.ZnakeConstants;
+import java.awt.Color;
 
 /**
  *
@@ -19,6 +20,7 @@ public class DefaultFood extends Food {
     public DefaultFood() {
         effect = new Effect();
         effect.setScore(ZnakeConstants.DEFAULT_SCORE);
+        setBackground(Color.gray);
     }
     
     @Override
@@ -27,7 +29,7 @@ public class DefaultFood extends Food {
     }
     
     @Override
-    public String getName() {
+    public String getFoodName() {
         return "Default Food";
     }
 }
