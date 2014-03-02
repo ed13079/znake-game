@@ -14,6 +14,7 @@ import ac.id.itb.tgs2.znake.model.factory.ZnakeFactory;
 import ac.id.itb.tgs2.znake.utilities.*;
 import ac.id.itb.tgs2.znake.view.*;
 import java.awt.LayoutManager;
+import java.awt.Rectangle;
 import java.util.Random;
 import javax.swing.*;
 
@@ -24,7 +25,6 @@ import javax.swing.*;
 public class ZnakeController {
     
     private JPanel board;
-    private LayoutManager layout;
     private SwingWorker<String, Void> threadMove;
     private Znake znake;
     private ZnakeOperation operation;
@@ -66,12 +66,7 @@ public class ZnakeController {
         
         board.setLayout(null);
         for (ZnakeBodyPart zbp : znake.getZnakeBodyParts()) {
-            zbp.setBounds(
-                zbp.getPosition().x * ZnakeConstants.CELL_WIDTH,
-                zbp.getPosition().y * ZnakeConstants.CELL_HEIGHT,
-                    ZnakeConstants.CELL_WIDTH,
-                    ZnakeConstants.CELL_HEIGHT
-            );
+            zbp.setBounds(getActualPosition(zbp));
             board.add(zbp);
         }
         
@@ -91,12 +86,7 @@ public class ZnakeController {
 //                            "%s, %s",
 //                            zbp.getPosition().x,
 //                            zbp.getPosition().y));
-                        zbp.setBounds(
-                            zbp.getPosition().x * ZnakeConstants.CELL_WIDTH,
-                            zbp.getPosition().y * ZnakeConstants.CELL_HEIGHT,
-                                ZnakeConstants.CELL_WIDTH,
-                                ZnakeConstants.CELL_HEIGHT
-                        );
+                        zbp.setBounds(getActualPosition(zbp));
 //                        board.add(zbp);
                     }
                     //board.repaint();
@@ -128,6 +118,22 @@ public class ZnakeController {
         } while (!addFoodAllowed);
     }
     
+    /**
+     * Oleh karena posisi-posisi elemen ZnakeElement pake posisi tidak sebenarnya,
+     * maka untuk ditampilkan ke layar harus pake ukuran dalam pixel. Di sinilah
+     * method itu berguna.
+     * 
+     * @param znakeElement Elemen Znake yang mau dicari posisi Actualnya
+     * @return Lokasi dan panjang-lebar elemen
+     */
+    public Rectangle getActualPosition(ZnakeElement znakeElement) {
+        return new Rectangle(
+            znakeElement.getPosition().x * ZnakeConstants.CELL_WIDTH,
+            znakeElement.getPosition().y * ZnakeConstants.CELL_HEIGHT,
+                ZnakeConstants.CELL_WIDTH,
+                ZnakeConstants.CELL_HEIGHT
+        );
+    }
     
     /*
      * Getter and setter
@@ -157,6 +163,4 @@ public class ZnakeController {
         return board;
     }
     
-    
-        
 }
