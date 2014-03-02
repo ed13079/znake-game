@@ -20,12 +20,13 @@ import javax.swing.*;
  *
  * @author wirasta1330
  */
-public class ZnakeController implements ZnakeOperation {
+public class ZnakeController {
     
     private JPanel board;
     private LayoutManager layout;
     private SwingWorker<String, Void> threadMove;
     private Znake znake;
+    private ZnakeOperation operation;
     private volatile boolean running;
     private volatile int direction;
     private int speed;
@@ -40,6 +41,7 @@ public class ZnakeController implements ZnakeOperation {
      * Inisialisasi komponen-komponen controller
      */
     private void initializeComponents() {
+        operation = new ZnakeOperation(this);
         znake = ZnakeFactory.createZnake(7, 7);
         direction = ZnakeConstants.EAST;
         board = new JPanel();
@@ -82,68 +84,14 @@ public class ZnakeController implements ZnakeOperation {
         };
     }
     
-    /**
-     * Jalankan engine
-     */
     public void run() {
         running = true;
         threadMove.execute();
     }
     
     /*
-     * Overrides
-     */
-    
-    @Override
-    public void plusScore(int score) {
-        
-    }
-    
-    @Override
-    public void increaseSpeed(int speed) {
-        
-    }
-    
-    @Override
-    public void decreaseSpeed(int speed) {
-        
-    }
-    
-    @Override
-    public void moveUp() {
-        if (getDirection() != ZnakeConstants.NORTH && getDirection() != ZnakeConstants.SOUTH) {
-            setDirection(ZnakeConstants.NORTH);
-        }
-    }
-    
-    @Override
-    public void moveDown() {
-        if (getDirection() != ZnakeConstants.NORTH && getDirection() != ZnakeConstants.SOUTH) {
-            setDirection(ZnakeConstants.SOUTH);
-        }
-    }
-    
-    @Override
-    public void moveLeft() {
-        if (getDirection() != ZnakeConstants.EAST && getDirection() != ZnakeConstants.WEST) {
-            setDirection(direction = ZnakeConstants.WEST);
-        }
-    }
-    
-    @Override
-    public void moveRight() {
-        if (direction != ZnakeConstants.EAST && direction != ZnakeConstants.WEST) {
-            direction = ZnakeConstants.EAST;
-        }
-    }
-    
-    /*
      * Getter and setter
      */
-    
-    public JPanel getPanel() {
-        return board;
-    }
     
     public int getDirection() {
         synchronized (dirObj) {
@@ -156,5 +104,19 @@ public class ZnakeController implements ZnakeOperation {
             this.direction = direction;
         }
     }
+    
+    public ZnakeOperation getZnakeOperation() {
+        return operation;
+    }
+    
+    public void setZnakeOperation(ZnakeOperation operation) {
+        this.operation = operation;
+    }
+    
+    public JPanel getPanel() {
+        return board;
+    }
+    
+    
         
 }

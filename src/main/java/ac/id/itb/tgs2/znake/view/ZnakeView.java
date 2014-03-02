@@ -61,19 +61,19 @@ public class ZnakeView extends javax.swing.JFrame {
                 ZnakeCommand cmd;
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP:
-                        cmd = new MoveUpCommand(engine);
+                        cmd = new MoveUpCommand(engine.getZnakeOperation());
                         break;
                     case KeyEvent.VK_RIGHT:
-                        cmd = new MoveRightCommand(engine);
+                        cmd = new MoveRightCommand(engine.getZnakeOperation());
                         break;
                     case KeyEvent.VK_DOWN:
-                        cmd = new MoveDownCommand(engine);
+                        cmd = new MoveDownCommand(engine.getZnakeOperation());
                         break;
                     case KeyEvent.VK_LEFT:
-                        cmd = new MoveLeftCommand(engine);
+                        cmd = new MoveLeftCommand(engine.getZnakeOperation());
                         break;
                     default:
-                        cmd = new MoveCommand(engine);
+                        cmd = new MoveCommand(engine.getZnakeOperation());
                 }
                 cmd.execute();
             }
