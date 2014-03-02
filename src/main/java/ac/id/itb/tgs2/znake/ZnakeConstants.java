@@ -13,8 +13,8 @@ package ac.id.itb.tgs2.znake;
 public interface ZnakeConstants {
     
     // Board
-    static final int BOARD_WIDTH = 500;
-    static final int BOARD_HEIGHT = 250;
+    static final int BOARD_WIDTH = 50;
+    static final int BOARD_HEIGHT = 25;
     static final int CELL_WIDTH = 10;
     static final int CELL_HEIGHT = 10;
     
