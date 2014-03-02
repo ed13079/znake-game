@@ -45,6 +45,4 @@ public class ZnakeBodyPart extends JPanel implements ZnakeElement {
         this.to = to;
     }
     
-    
-    
 }

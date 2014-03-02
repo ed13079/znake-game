@@ -15,7 +15,8 @@ import java.util.*;
  */
 public class Znake implements ZnakeConstants {
 
-    private List<ZnakeBodyPart> bodyParts = new ArrayList<>();
+    protected List<ZnakeBodyPart> bodyParts = new ArrayList<>();
+    protected int speed = ZnakeConstants.DEFAULT_SPEED_1;
 
     public Znake() {
 
@@ -48,6 +49,12 @@ public class Znake implements ZnakeConstants {
         }
     }
     
+    
+    /**
+     * Menjalankan si ular.
+     * 
+     * @param direction Arah ular: ke atas, kanan, bawah atau kiri.
+     */
     public void move(int direction) {
         int dirX = 0;
         int dirY = 0;
@@ -110,7 +117,32 @@ public class Znake implements ZnakeConstants {
         }
     }
     
+    /*
+     * Getter and setter 
+     */
+    
     public List<ZnakeBodyPart> getZnakeBodyParts() {
         return bodyParts;
+    }
+    
+    public int getSpeed() {
+        return speed;
+    }
+    
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+    
+    /*
+     * Method tambahan untuk znake body parts
+     */
+    
+    public void addBodyPart(ZnakeBodyPart bodyPart) {
+        justifyZnakePosition(bodyPart.getPosition());
+        bodyParts.add(bodyPart);
+    }
+    
+    public void clearBodyPart() {
+        bodyParts.clear();
     }
 }

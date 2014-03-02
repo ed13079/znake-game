@@ -7,7 +7,9 @@
 package ac.id.itb.tgs2.znake.controller;
 
 import ac.id.itb.tgs2.znake.ZnakeConstants;
+import ac.id.itb.tgs2.znake.command.MoveUpCommand;
 import ac.id.itb.tgs2.znake.model.*;
+import ac.id.itb.tgs2.znake.model.factory.ZnakeFactory;
 import ac.id.itb.tgs2.znake.utilities.*;
 import ac.id.itb.tgs2.znake.view.*;
 import info.clearthought.layout.TableLayout;
@@ -18,7 +20,7 @@ import javax.swing.*;
  *
  * @author wirasta1330
  */
-public class ZnakeController {
+public class ZnakeController implements ZnakeOperation {
     
     private JPanel board;
     private LayoutManager layout;
@@ -26,15 +28,19 @@ public class ZnakeController {
     private Znake znake;
     private volatile boolean running;
     private volatile int direction;
-    private int speed = 100;
+    private int speed;
+    
+    private final Object dirObj = new Object();
     
     public ZnakeController() {
         initializeComponents();
     }
     
+    /**
+     * Inisialisasi komponen-komponen controller
+     */
     private void initializeComponents() {
-        znake = new Znake();
-        znake.generateBody(6, 6);
+        znake = ZnakeFactory.createZnake(7, 7);
         direction = ZnakeConstants.EAST;
         board = new JPanel();
         double[][] size = new double[2][];
@@ -54,10 +60,10 @@ public class ZnakeController {
             public String doInBackground() {
                 while (running) {
                     try {
-                        Thread.sleep(speed);
+                        Thread.sleep(znake.getSpeed());
                     } catch (InterruptedException e) {
                     }
-                    znake.move(direction);
+                    znake.move(getDirection());
                     board.removeAll();
                     for (int i = 0; i < znake.getZnakeBodyParts().size(); i++) {
                         ZnakeBodyPart zbp = znake.getZnakeBodyParts().get(i);
@@ -76,20 +82,79 @@ public class ZnakeController {
         };
     }
     
+    /**
+     * Jalankan engine
+     */
+    public void run() {
+        running = true;
+        threadMove.execute();
+    }
+    
+    /*
+     * Overrides
+     */
+    
+    @Override
+    public void plusScore(int score) {
+        
+    }
+    
+    @Override
+    public void increaseSpeed(int speed) {
+        
+    }
+    
+    @Override
+    public void decreaseSpeed(int speed) {
+        
+    }
+    
+    @Override
+    public void moveUp() {
+        if (getDirection() != ZnakeConstants.NORTH && getDirection() != ZnakeConstants.SOUTH) {
+            setDirection(ZnakeConstants.NORTH);
+        }
+    }
+    
+    @Override
+    public void moveDown() {
+        if (getDirection() != ZnakeConstants.NORTH && getDirection() != ZnakeConstants.SOUTH) {
+            setDirection(ZnakeConstants.SOUTH);
+        }
+    }
+    
+    @Override
+    public void moveLeft() {
+        if (getDirection() != ZnakeConstants.EAST && getDirection() != ZnakeConstants.WEST) {
+            setDirection(direction = ZnakeConstants.WEST);
+        }
+    }
+    
+    @Override
+    public void moveRight() {
+        if (direction != ZnakeConstants.EAST && direction != ZnakeConstants.WEST) {
+            direction = ZnakeConstants.EAST;
+        }
+    }
+    
+    /*
+     * Getter and setter
+     */
+    
     public JPanel getPanel() {
         return board;
     }
     
     public int getDirection() {
-        return direction;
+        synchronized (dirObj) {
+            return direction;
+        }
     }
     
     public void setDirection(int direction) {
-        this.direction = direction;
+        synchronized (dirObj) {
+            this.direction = direction;
+        }
     }
-    
-    public void run() {
-        running = true;
-        threadMove.execute();
-    }
+        
 }
