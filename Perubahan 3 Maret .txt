@@ -108,3 +108,12 @@ Jika sekiranya terdapat bug yang ditemukan secara tidak sengaja, monggo dilapork
 ===============================================================================
 
 
+3 Maret 2014 12.34 WIB
+(Perubahan source code dilakukan sama si Edbert)
+
+Perubahan-perubahan yang dilakukan adalah:
+1. Implementasi flyweight pada food factory. Mohon pertimbangannya.
+
+Jika sekiranya terdapat bug yang ditemukan secara tidak sengaja, monggo dilaporkan. Nuhun.
+
+================================================================================
