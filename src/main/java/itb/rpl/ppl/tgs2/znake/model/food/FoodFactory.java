@@ -20,7 +20,8 @@ public class FoodFactory {
 //    public static final String FOOD_PACKAGE_NAME = "itb.rpl.ppl.tgs2.znake.model.food";
     
     // Implementasi pattern flyweight
-    private static HashMap<String, Food> feedMap = new HashMap<String, Food>();
+    //private static HashMap<String, Food> feedMap = new HashMap<String, Food>();
+    private static HashMap<Point, Food> feedMap = new HashMap<Point, Food>();
    
     public static Food getFoodSnake (String foodType){
         //Food foodObject = feedMap.get(foodType);
@@ -74,9 +75,18 @@ public class FoodFactory {
 //        return food;
 //    }
 //    
-//    public static Food createDefaultFood(int x, int y) {
-//        return createFood(x, y, "DefaultFood");
-//    }
+    public static Food createDefaultFood(int x, int y) {
+        Point p = new Point(x, y);
+        Food food = feedMap.get(p);
+        
+        if (food == null) {
+            food = new DefaultFood();
+            ((DefaultFood)food).setPosition(x, y);
+            feedMap.put(food.getPosition(), food);
+        }
+        
+        return food;
+    }
 //    
 //    public static Food createExtraFood(int x, int y) {
 //        return createExtraFood(x, y, null);
