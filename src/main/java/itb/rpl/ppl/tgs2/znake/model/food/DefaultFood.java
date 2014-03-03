@@ -41,6 +41,27 @@ public class DefaultFood implements Food {
     public Point getPosition() {
         return position;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + (this.effect != null ? this.effect.hashCode() : 0);
+        hash = 23 * hash + (this.foodName != null ? this.foodName.hashCode() : 0);
+        hash = 23 * hash + (this.position != null ? this.position.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DefaultFood other = (DefaultFood) obj;
+        return true;
+    }
     
     public void setPosition(int x, int y) {
         this.position = new Point(x, y);

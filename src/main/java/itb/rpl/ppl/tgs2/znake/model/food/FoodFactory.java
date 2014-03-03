@@ -24,7 +24,7 @@ public class FoodFactory {
    
     public static Food getFoodSnake (String foodType){
         //Food foodObject = feedMap.get(foodType);
-        Food foodObject = feedMap.get(foodType);
+        Food foodObject;
 
         
         //if (foodObject == null) {

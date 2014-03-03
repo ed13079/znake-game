@@ -87,3 +87,24 @@ Untuk iteratif dua
 3. rencana mw ada labirin (bentuk arena) : kl g bisa ya gpp
 
 nanti qt bahas hari selasa tgl 4 Maret
+
+=============================================================================
+
+3 Maret 2014 12.08 WIB
+(Perubahan source code dilakukan sama si Edbert)
+
+Perubahan-perubahan yang dilakukan adalah:
+1. Penambahan method grow() di kelasa Znake;
+2. Penambahan implementasi dari method grow() itu sendiri (di method move() lebih tepatnya);
+3. Perubahan implementasi penggambaran objek Znake dan Food di ZnakeController, yaitu dengan menggunakan ((Graphics) g).fillRect();
+   implementasi ini mungkin saja sewaktu-waktu berubah sesuai dengan kesulitan implementasi yang akan dijumpai ke depannya;
+4. Objek Znake bukan lagi turunan JPanel karena alasan yang tertera pada poin 3;
+5. Perubahan nama konstanta CELL_WIDTH dan CELL_HEIGHT jadi DOT_WIDTH dan DOT_HEIGHT;
+6. Perubahan source code FoodFactory untuk sementara, karena implementasi desain pattern flyweight sepertinya bukan seperti itu;
+7. Rilis aplikasi Znake dengan versi no-maze untuk sementara seperti ini;
+
+Jika sekiranya terdapat bug yang ditemukan secara tidak sengaja, monggo dilaporkan. Nuhun.
+
+===============================================================================
+
+
