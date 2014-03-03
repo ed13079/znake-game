@@ -21,7 +21,7 @@ public class FoodFactory {
     
     // Implementasi pattern flyweight
     //private static HashMap<String, Food> feedMap = new HashMap<String, Food>();
-    private static HashMap<Point, Food> feedMap = new HashMap<Point, Food>();
+    private static HashMap<String, Food> feedMap = new HashMap<String, Food>();
    
     public static Food getFoodSnake (String foodType){
         //Food foodObject = feedMap.get(foodType);
@@ -76,14 +76,15 @@ public class FoodFactory {
 //    }
 //    
     public static Food createDefaultFood(int x, int y) {
-        Point p = new Point(x, y);
-        Food food = feedMap.get(p);
+        String key = String.format("DefaultFood[%s, %s]", x, y);
+        Food food = feedMap.get(key);
         
         if (food == null) {
             food = new DefaultFood();
-            ((DefaultFood)food).setPosition(x, y);
-            feedMap.put(food.getPosition(), food);
+            feedMap.put(key, food);
         }
+        
+        ((DefaultFood)food).setPosition(x, y);
         
         return food;
     }
