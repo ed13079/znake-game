@@ -7,11 +7,12 @@
 package itb.rpl.ppl.tgs2.znake.controller;
 
 import itb.rpl.ppl.tgs2.znake.model.snake.ZnakeBodyPart;
-import itb.rpl.ppl.tgs2.znake.util.ZnakeConstants;
+import itb.rpl.ppl.tgs2.znake.util.*;
 import itb.rpl.ppl.tgs2.znake.model.food.*;
 import itb.rpl.ppl.tgs2.znake.model.snake.*;
 import itb.rpl.ppl.tgs2.znake.model.food.FoodFactory;
-import itb.rpl.ppl.tgs2.znake.util.ZnakeOperation;
+import itb.rpl.ppl.tgs2.znake.model.player.Player;
+import itb.rpl.ppl.tgs2.znake.util.command.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -33,10 +34,13 @@ public class ZnakeController implements ActionListener {
     private Znake znake;
     private ZnakeOperation operation;
     private FoodFactory foodFactory;
-    private Food defaultFood;
+    private ZBroker broker;
+    private Food food;
     private Random random;
     private Timer timer;
-    
+    private Player player;
+    private JLabel labelScore;
+            
     private volatile boolean running;
     private volatile int direction;
     
@@ -50,6 +54,8 @@ public class ZnakeController implements ActionListener {
      * Inisialisasi komponen-komponen controller
      */
     private void initializeComponents() {
+        player = Player.getInstance();
+        broker = new ZBroker();
         operation = new ZnakeOperation(this);
         znake = Znake.getInstance();
         znake.generateBody(ZnakeConstants.INIT_POS_X, ZnakeConstants.INIT_POS_Y);
@@ -61,7 +67,10 @@ public class ZnakeController implements ActionListener {
                 doDrawing(g);
             }
         };
-        
+        labelScore = new JLabel();
+        labelScore.setText("Score = " + player.getScore());
+        labelScore.setVisible(true);
+        board.add(labelScore);
         board.setLayout(null);
         // set snake in board
 //        for (ZnakeBodyPart zbp : znake.getZnakeBodyParts()) {
@@ -93,7 +102,7 @@ public class ZnakeController implements ActionListener {
 //            }
 //        };
         
-        defaultFood = createDefaultFood();
+        food = createDefaultFood();
     }
     
     /**
@@ -109,19 +118,20 @@ public class ZnakeController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (running) {
-            checkDefaultFood();
-            
+            checkFood();
+            timer.setDelay(znake.getSpeed());
             znake.move(direction);
         } else {
             timer.stop();
         }
+        labelScore.setText("Score = " + player.getScore());
         board.repaint();
     }
     
     private void doDrawing(Graphics g) {
         if (running) {
 
-            Point p = getActualPosition(defaultFood.getPosition());
+            Point p = getActualPosition(food.getPosition());
             //g.drawImage(apple, apple_x, apple_y, this);
             g.setColor(Color.red);
             g.fillRect(p.x, p.y, ZnakeConstants.DOT_WIDTH, ZnakeConstants.DOT_HEIGHT);
@@ -158,12 +168,27 @@ public class ZnakeController implements ActionListener {
         return food;
     }
     
-    private void checkDefaultFood() {
+    private void checkFood() {
         ZnakeBodyPart head = znake.getZnakeBodyPart(0);
         
-        if (head.getPosition().equals(defaultFood.getPosition())) {
-            znake.grow();
-            defaultFood = createDefaultFood();
+        if (head.getPosition().equals(food.getPosition())) {     
+            if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.NORMAL_EFFECT)){
+                broker.addCommand( new AddBodyCommand(operation));
+            }else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.ADD_BODY_EFFECT)){
+                broker.addCommand( new AddBodyCommand(operation));
+            }else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.INCREASE_SPEED_EFFECT)){
+                broker.addCommand( new IncreaseSpeedCommand(operation)); // 
+            }else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.DECREASE_SPEED_EFFECT)){
+                broker.addCommand( new DecreaseSpeedCommand(operation));
+            }else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.REVERSE_DIRECTION_EFFECT)){
+                broker.addCommand( new ReverseDirection(operation));
+            }else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.SUB_BODY_EFFECT)){
+                broker.addCommand( new SubBodyCommand(operation));
+            }
+            broker.addCommand(new PlusScoreCommand(operation, food));
+            //znake.grow();// harusnya execute commad
+            broker.executeCommand(); // execute command
+            food = createDefaultFood();
         }
     }
     

@@ -8,7 +8,10 @@ package itb.rpl.ppl.tgs2.znake.util;
 
 import itb.rpl.ppl.tgs2.znake.util.ZnakeConstants;
 import itb.rpl.ppl.tgs2.znake.controller.ZnakeController;
+import itb.rpl.ppl.tgs2.znake.model.player.Player;
 import itb.rpl.ppl.tgs2.znake.model.snake.Znake;
+import itb.rpl.ppl.tgs2.znake.model.snake.ZnakeBodyPart;
+import java.awt.Point;
 
 /**
  *
@@ -17,21 +20,38 @@ import itb.rpl.ppl.tgs2.znake.model.snake.Znake;
 public class ZnakeOperation {
     
     private final ZnakeController engine;
-    
+    Znake snakeObj = Znake.getInstance();
+    Player playerObj = Player.getInstance();
     public ZnakeOperation(ZnakeController controller) {
         this.engine = controller;
     }
     
-    void plusScore(int score) {
+    public void plusScore(int score) {
+        playerObj.addScore(score);
+    }
+    
+    public void increaseSpeed(int speed) {
         
     }
     
-    void increaseSpeed(int speed) {
+    public void decreaseSpeed(int speed) {
         
     }
     
-    void decreaseSpeed(int speed) {
-        
+    public void addBody(){
+         ZnakeBodyPart zbp = new ZnakeBodyPart();
+         zbp.setPosition(
+                new Point(snakeObj.getZnakeBodyParts().get(snakeObj.getZnakeBodyParts().size() - 1).getPosition())
+         );
+         snakeObj.getZnakeBodyParts().add(zbp);
+    }
+    
+    public void subBody(){
+         //snakeObj.getZnakeBodyParts().remove(snakeObj.getZnakeBodyParts().size() - 1);
+    }
+    
+    public void reverseDirection(){
+        //snakeObj.setDirectionFlag(snakeObj.getDirectionFlag() * ZnakeConstants.DIRECTION_ABNORMAL);
     }
     
     public void moveUp() {

@@ -18,7 +18,7 @@ public interface Food {
     Effect getEffect();
     String getFoodName();
     Point getPosition();
-    
+    void setPosition(int x, int y);
 //    @Override
 //    public String toString() {
 //        return "Food { Name: " + getFoodName() + ", Score: " + getScore() + " }";

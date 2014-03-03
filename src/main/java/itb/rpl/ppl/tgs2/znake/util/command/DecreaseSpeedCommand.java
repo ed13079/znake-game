@@ -10,18 +10,16 @@ import itb.rpl.ppl.tgs2.znake.util.ZnakeOperation;
 
 /**
  *
- * @author wirasta1330
+ * @author TOSHIBA
  */
-public class AddBodyCommand implements ZnakeCommand {
+public class DecreaseSpeedCommand implements ZnakeCommand {
+         ZnakeOperation operation;
     
-    ZnakeOperation operation;
-    
-    public AddBodyCommand(ZnakeOperation operation) {
+    public DecreaseSpeedCommand(ZnakeOperation operation) {
         this.operation = operation;
     }
     
     @Override
     public void execute() {
-        operation.addBody();
     }
 }

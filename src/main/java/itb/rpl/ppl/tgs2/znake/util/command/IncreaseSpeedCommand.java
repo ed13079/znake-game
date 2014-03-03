@@ -10,18 +10,16 @@ import itb.rpl.ppl.tgs2.znake.util.ZnakeOperation;
 
 /**
  *
- * @author wirasta1330
+ * @author TOSHIBA
  */
-public class RemoveBodyCommand implements ZnakeCommand {
+public class IncreaseSpeedCommand implements ZnakeCommand {
+     ZnakeOperation operation;
     
-    ZnakeOperation operation;
-    
-    public RemoveBodyCommand(ZnakeOperation operation) {
+    public IncreaseSpeedCommand(ZnakeOperation operation) {
         this.operation = operation;
     }
     
     @Override
     public void execute() {
-        
     }
 }

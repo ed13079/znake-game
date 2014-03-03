@@ -12,16 +12,16 @@ import itb.rpl.ppl.tgs2.znake.util.ZnakeOperation;
  *
  * @author wirasta1330
  */
-public class AddBodyCommand implements ZnakeCommand {
+public class SubBodyCommand implements ZnakeCommand {
     
     ZnakeOperation operation;
     
-    public AddBodyCommand(ZnakeOperation operation) {
+    public SubBodyCommand(ZnakeOperation operation) {
         this.operation = operation;
     }
     
     @Override
     public void execute() {
-        operation.addBody();
+        
     }
 }

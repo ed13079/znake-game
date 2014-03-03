@@ -24,19 +24,22 @@ public class FoodFactory {
     private static HashMap<String, Food> feedMap = new HashMap<String, Food>();
    
     public static Food getFoodSnake (String foodType){
-        //Food foodObject = feedMap.get(foodType);
-        Food foodObject;
+        Food foodObject = feedMap.get(foodType);
+        //Food foodObject;
 
-        
-        //if (foodObject == null) {
+        if (foodObject == null) { // check apakah objek food sudah dibuat sebelumnya
+            // belum di buat akan di buat objek baru dan put ke hash map
             if (foodType.equalsIgnoreCase(ZnakeConstants.NORMAL_EFFECT)){
                 foodObject = new DefaultFood();
             } else {
                 foodObject = new ExtraFood(foodType);
             }
-            //feedMap.put(foodType, foodObject);
-        //}
-        
+            feedMap.put(foodType, foodObject);
+        }else {
+            // kl sudah ada ambil obej dan ubah posisinya dari objek sebelumnya biarga sama posisinya dengan yang lama
+            foodObject.setPosition((int)(Math.random() * ZnakeConstants.BOARD_WIDTH), // value random for x (beetween 0 and limit max board WIDTH)
+                             (int)(Math.random() * ZnakeConstants.BOARD_HEIGHT)); // value random for y (beetween 0 and limit max board HEIGHT)
+        }
         return foodObject;
     } 
     // coment dibawah ini proses buat apa yah? harus setiing class dan package
@@ -74,7 +77,9 @@ public class FoodFactory {
 //        
 //        return food;
 //    }
-//    
+//  
+    
+    // method ini dipakai buat apa yah? qo g ada yg manggil yah hehe
     public static Food createDefaultFood(int x, int y) {
         String key = String.format("DefaultFood[%s, %s]", x, y);
         Food food = feedMap.get(key);

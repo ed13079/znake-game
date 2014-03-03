@@ -6,6 +6,7 @@
 
 package itb.rpl.ppl.tgs2.znake.util.command;
 
+import itb.rpl.ppl.tgs2.znake.model.food.Food;
 import itb.rpl.ppl.tgs2.znake.util.ZnakeOperation;
 
 /**
@@ -17,16 +18,17 @@ public class PlusScoreCommand implements ZnakeCommand {
     private ZnakeOperation operation;
     private int score;
     
-    public PlusScoreCommand(ZnakeOperation operation) {
-        this(operation, 5);
-    }
+//    public PlusScoreCommand(ZnakeOperation operation, Food food) {
+//        this(operation, food.getEffect().getScore());
+//    }
     
-    public PlusScoreCommand(ZnakeOperation operation, int score) {
+    public PlusScoreCommand(ZnakeOperation operation, Food food) {
         this.operation = operation;
+        this.score = food.getEffect().getScore();
     }
     
     @Override
     public void execute() {
-        //operation.plusScore(score);
+        operation.plusScore(score);
     }
 }

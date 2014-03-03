@@ -37,8 +37,14 @@ public class ExtraFood implements Food {
         return foodName;
     }
 
+    @Override
     public Point getPosition() {
        return position;
+    }
+
+    @Override
+    public void setPosition(int x, int y) {
+        this.position.setLocation(x, y);
     }
     
 }

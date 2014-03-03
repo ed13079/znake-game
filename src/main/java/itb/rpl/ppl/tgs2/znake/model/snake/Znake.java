@@ -18,7 +18,8 @@ public class Znake {
     private List<ZnakeBodyPart> bodyParts = new ArrayList<ZnakeBodyPart>();
     private int speed = ZnakeConstants.DEFAULT_SPEED_1;
     private static Znake instance = new Znake();
-    private boolean grow = false;
+    private int directionFlag = ZnakeConstants.DIRECTION_NORMAL;
+//    private boolean grow = false;
     
     private Znake() {
     }
@@ -69,24 +70,25 @@ public class Znake {
         int dirY = 0;
         
         switch (direction) {
-            case ZnakeConstants.NORTH: dirY = -1; break;
-            case ZnakeConstants.SOUTH: dirY = 1; break;
-            case ZnakeConstants.WEST: dirX = -1; break;
-            case ZnakeConstants.EAST: dirX = 1; break;
+            case ZnakeConstants.NORTH: dirY = -1 * directionFlag; break;
+            case ZnakeConstants.SOUTH: dirY = 1 * directionFlag; break;
+            case ZnakeConstants.WEST: dirX = -1 * directionFlag; break;
+            case ZnakeConstants.EAST: dirX = 1 * directionFlag; break;
         }
         
-        if (grow) {
-            grow = false;
-            ZnakeBodyPart zbp = new ZnakeBodyPart();
-            zbp.setPosition(
-                new Point(bodyParts.get(bodyParts.size() - 1).getPosition())
-            );
-            bodyParts.add(bodyParts.size() - 1, zbp);
-        } else {
-            bodyParts.get(bodyParts.size() - 1).setPosition(bodyParts.get(bodyParts.size() - 2).getPosition());
-        }
+//        if (grow) {
+//            grow = false;
+//            ZnakeBodyPart zbp = new ZnakeBodyPart();
+//            zbp.setPosition(
+//                new Point(bodyParts.get(bodyParts.size() - 1).getPosition())
+//            );
+//            bodyParts.add(bodyParts.size() - 1, zbp);
+//        } else {
+//            bodyParts.get(bodyParts.size() - 1).setPosition(bodyParts.get(bodyParts.size() - 2).getPosition());
+//        }
+//        bodyParts.get(bodyParts.size() - 1).setPosition(bodyParts.get(bodyParts.size() - 2).getPosition());
         
-        for (int i = bodyParts.size() - 2; i > 0; i--) {
+        for (int i = bodyParts.size() - 1; i > 0; i--) {
             bodyParts.get(i).setPosition(bodyParts.get(i - 1).getPosition());
         }
         
@@ -97,9 +99,9 @@ public class Znake {
         bodyParts.get(0).setPosition(point);
     }
     
-    public void grow() {
-        grow = true;
-    }
+//    public void grow() {
+//        grow = true;
+//    }
 
     /*
     public void justifyZnakePosition(ZnakeBodyPart bodyPart) {
@@ -172,6 +174,14 @@ public class Znake {
     
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public int getDirectionFlag() {
+        return directionFlag;
+    }
+
+    public void setDirectionFlag(int directionFlag) {
+        this.directionFlag = directionFlag;
     }
     
     

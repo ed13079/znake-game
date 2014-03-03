@@ -26,6 +26,8 @@ public final class ZnakeConstants {
     public static final int DEFAULT_EXTRA_TIME_REMAINING = 10000; // in miliseconds
     public static final int INIT_POS_X = 7;
     public static final int INIT_POS_Y = 7; 
+    public static final int DIRECTION_NORMAL = 1; 
+    public static final int DIRECTION_ABNORMAL = -1; 
     
     // Direction
     public static final int NORTH = 0;
