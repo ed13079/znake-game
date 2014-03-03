@@ -37,7 +37,12 @@ public class DefaultFood implements Food {
         return foodName;
     }
 
+    @Override
     public Point getPosition() {
         return position;
+    }
+    
+    public void setPosition(int x, int y) {
+        this.position = new Point(x, y);
     }
 }

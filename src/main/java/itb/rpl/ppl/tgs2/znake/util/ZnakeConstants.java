@@ -13,14 +13,14 @@ package itb.rpl.ppl.tgs2.znake.util;
 public final class ZnakeConstants {
     
     // Board
-    public static final int BOARD_WIDTH = 50;
-    public static final int BOARD_HEIGHT = 25;
-    public static final int CELL_WIDTH = 10;
-    public static final int CELL_HEIGHT = 10;
+    public static final int BOARD_WIDTH = 30;
+    public static final int BOARD_HEIGHT = 30;
+    public static final int DOT_WIDTH = 10;
+    public static final int DOT_HEIGHT = 10;
     
     // Znake
     public static final int DEFAULT_SNAKE_LENGTH = 4;
-    public static final int DEFAULT_SPEED_1 = 500;
+    public static final int DEFAULT_SPEED_1 = 200;
     public static final int DEFAULT_SCORE = 5;
     public static final int DEFAULT_EXTRA_SCORE = 10;
     public static final int DEFAULT_EXTRA_TIME_REMAINING = 10000; // in miliseconds

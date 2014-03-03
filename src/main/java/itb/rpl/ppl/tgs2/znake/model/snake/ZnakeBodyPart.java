@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package itb.rpl.ppl.tgs2.znake.view;
+package itb.rpl.ppl.tgs2.znake.model.snake;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -14,14 +14,14 @@ import javax.swing.*;
  *
  * @author edbert
  */
-public class ZnakeBodyPart extends JPanel {
+public class ZnakeBodyPart {
     
     private Point position;
     private int from; // asal arah gerakan
     private int to; // tujuan arah gerakan
     
     public ZnakeBodyPart() {
-        this.setBackground(Color.red);
+        //this.setBackground(Color.red);
     }
     
     public Point getPosition() {

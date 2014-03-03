@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  *
  * @author Edbert
  */
-public interface Food  {
+public interface Food {
     
     Effect getEffect();
     String getFoodName();

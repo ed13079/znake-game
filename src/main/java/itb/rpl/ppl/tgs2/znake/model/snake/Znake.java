@@ -5,7 +5,6 @@
  */
 package itb.rpl.ppl.tgs2.znake.model.snake;
 
-import itb.rpl.ppl.tgs2.znake.view.ZnakeBodyPart;
 import itb.rpl.ppl.tgs2.znake.util.ZnakeConstants;
 import java.awt.Point;
 import java.util.*;
@@ -19,6 +18,7 @@ public class Znake {
     private List<ZnakeBodyPart> bodyParts = new ArrayList<ZnakeBodyPart>();
     private int speed = ZnakeConstants.DEFAULT_SPEED_1;
     private static Znake instance = new Znake();
+    private boolean grow = false;
     
     private Znake() {
     }
@@ -37,7 +37,7 @@ public class Znake {
         // body di remove dulu baru di buat lagi dari awal
         
         // baiknya generate body ketika inisialasi
-        //tetapi kalo ada add body cukup -> add list
+        // tetapi kalo ada add body cukup -> add list
         // kemudian kalo kurang body cukup -> remove body by index
         
         if (znakeLength < ZnakeConstants.DEFAULT_SNAKE_LENGTH) {
@@ -75,9 +75,16 @@ public class Znake {
             case ZnakeConstants.EAST: dirX = 1; break;
         }
         
-        //if (not touch a food) {
-        bodyParts.get(bodyParts.size() - 1).setPosition(bodyParts.get(bodyParts.size() - 2).getPosition());
-        //}
+        if (grow) {
+            grow = false;
+            ZnakeBodyPart zbp = new ZnakeBodyPart();
+            zbp.setPosition(
+                new Point(bodyParts.get(bodyParts.size() - 1).getPosition())
+            );
+            bodyParts.add(bodyParts.size() - 1, zbp);
+        } else {
+            bodyParts.get(bodyParts.size() - 1).setPosition(bodyParts.get(bodyParts.size() - 2).getPosition());
+        }
         
         for (int i = bodyParts.size() - 2; i > 0; i--) {
             bodyParts.get(i).setPosition(bodyParts.get(i - 1).getPosition());
@@ -88,6 +95,10 @@ public class Znake {
         point.y += dirY;
         justifyZnakePosition(point);
         bodyParts.get(0).setPosition(point);
+    }
+    
+    public void grow() {
+        grow = true;
     }
 
     /*
@@ -127,6 +138,27 @@ public class Znake {
     }
     
     /*
+     * Method tambahan untuk znake body parts
+     */
+    
+    public void addBodyPart(ZnakeBodyPart bodyPart) {
+        justifyZnakePosition(bodyPart.getPosition());
+        bodyParts.add(bodyPart);
+    }
+    
+    public void clearBodyPart() {
+        bodyParts.clear();
+    }
+    
+    public int length() {
+        return bodyParts.size();
+    }
+    
+    public ZnakeBodyPart getZnakeBodyPart(int i) {
+        return bodyParts.get(i);
+    }
+    
+    /*
      * Getter and setter 
      */
     
@@ -142,16 +174,5 @@ public class Znake {
         this.speed = speed;
     }
     
-    /*
-     * Method tambahan untuk znake body parts
-     */
     
-    public void addBodyPart(ZnakeBodyPart bodyPart) {
-        justifyZnakePosition(bodyPart.getPosition());
-        bodyParts.add(bodyPart);
-    }
-    
-    public void clearBodyPart() {
-        bodyParts.clear();
-    }
 }

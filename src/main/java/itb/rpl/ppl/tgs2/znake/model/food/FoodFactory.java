@@ -23,16 +23,18 @@ public class FoodFactory {
     private static HashMap<String, Food> feedMap = new HashMap<String, Food>();
    
     public static Food getFoodSnake (String foodType){
+        //Food foodObject = feedMap.get(foodType);
         Food foodObject = feedMap.get(foodType);
+
         
-        if (foodObject == null){
+        //if (foodObject == null) {
             if (foodType.equalsIgnoreCase(ZnakeConstants.NORMAL_EFFECT)){
                 foodObject = new DefaultFood();
-            }else{
+            } else {
                 foodObject = new ExtraFood(foodType);
             }
-            feedMap.put(foodType, foodObject);
-        }
+            //feedMap.put(foodType, foodObject);
+        //}
         
         return foodObject;
     } 
