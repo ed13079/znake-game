@@ -118,3 +118,12 @@ Jika sekiranya terdapat bug yang ditemukan secara tidak sengaja, monggo dilapork
 
 ================================================================================
 
+
+4 Maret 2014 7.43 WIB
+(Revisi source code dilakukan sama si Edbert)
+
+Perubahan-perubahan yang dilakukan adalah:
+1. Pemanfaatan method grow() pada instance Znake untuk pertumbuhan si Znake, bukan dengan campur tangan instance lain.
+2. Method createDefaultFactory() tanpa parameter, random dilakukan di dalam method.
+
+Sekian.
