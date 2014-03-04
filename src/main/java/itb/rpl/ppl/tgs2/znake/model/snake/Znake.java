@@ -83,8 +83,6 @@ public class Znake {
 //        }
 //        bodyParts.get(bodyParts.size() - 1).setPosition(bodyParts.get(bodyParts.size() - 2).getPosition());
         
-        
-        
         for (int i = bodyParts.size() - 1; i > 0; i--) {
             bodyParts.get(i).setPosition(bodyParts.get(i - 1).getPosition());
         }
@@ -108,7 +106,7 @@ public class Znake {
     }
     
     /**
-     * Menambah panjang si ular.
+     * Ngurangin panjang si ular.
      */
     public void diet() {
         bodyParts.remove(bodyParts.size() - 1);
@@ -170,10 +168,8 @@ public class Znake {
         return bodyParts.size();
     }
     
-    // harusnya return-kan clonenya, biar ga diganti-ganti si positionnya
     public ZnakeBodyPart getZnakeBodyPart(int i) {
         return bodyParts.get(i).clone();
-        //return bodyParts.get(i);
     }
     
     /*

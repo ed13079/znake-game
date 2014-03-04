@@ -43,12 +43,16 @@ public class ZnakeOperation {
         Znake.getInstance().grow(); // Biarkan znakenya yang bertumbuh
     }
     
-    public void subBody(){
+    public void subBody() {
         Znake.getInstance().diet();
     }
     
-    public void reverseDirection(){
+    public void reverseDirection() {
         Znake.getInstance().setDirectionFlag(Znake.getInstance().getDirectionFlag() * ZnakeConstants.DIRECTION_ABNORMAL);
+    }
+    
+    public void clearEffect() {
+        Znake.getInstance().clearEffect();
     }
     
     public void moveUp() {

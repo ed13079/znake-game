@@ -7,15 +7,7 @@ import itb.rpl.ppl.tgs2.znake.model.snake.*;
 import itb.rpl.ppl.tgs2.znake.model.food.FoodFactory;
 import itb.rpl.ppl.tgs2.znake.model.player.Player;
 import itb.rpl.ppl.tgs2.znake.util.command.*;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -41,6 +33,7 @@ public class ZnakeController implements ActionListener {
     //private Random random;
     private Timer timer;
     private Timer extraFoodTimer;
+    private Timer effectTimer;
     private Player player;
             
     private volatile boolean running;
@@ -117,6 +110,14 @@ public class ZnakeController implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 extraFood = null;
+            }
+        });
+        effectTimer = new Timer(15000, new ActionListener() {
+           
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                broker.addCommand(new ClearEffectCommand(operation));
+                broker.executeCommand();
             }
         });
         createDefaultFood();
@@ -198,17 +199,17 @@ public class ZnakeController implements ActionListener {
         String extraFoodEffect = "";
         
         // random effect extra
-        indexObjExtra = ((int)(Math.random() * 10)) % ZnakeConstants.nObjekExtra;
-        //indexObjExtra = 4;
+        //indexObjExtra = ((int)(Math.random() * 10)) % ZnakeConstants.N_OBJECT_EXTRA;
+        indexObjExtra = 2;
         if (indexObjExtra == 0) {
             extraFoodEffect = ZnakeConstants.ADD_BODY_EFFECT;
-        }else if (indexObjExtra == 1) {
+        } else if (indexObjExtra == 1) {
             extraFoodEffect = ZnakeConstants.SUB_BODY_EFFECT;
-        }else if (indexObjExtra == 2) {
+        } else if (indexObjExtra == 2) {
             extraFoodEffect = ZnakeConstants.INCREASE_SPEED_EFFECT;
-        }else if (indexObjExtra == 3) {
+        } else if (indexObjExtra == 3) {
             extraFoodEffect = ZnakeConstants.DECREASE_SPEED_EFFECT;
-        }else if (indexObjExtra == 4) {
+        } else if (indexObjExtra == 4) {
             extraFoodEffect = ZnakeConstants.REVERSE_DIRECTION_EFFECT;
         }
         
@@ -235,6 +236,8 @@ public class ZnakeController implements ActionListener {
         
          // cek ketika snake makan extra food
         if (extraFood != null && head.getPosition().equals(extraFood.getPosition())) {
+            effectTimer.stop();
+            broker.addCommand(new ClearEffectCommand(operation));
             if (extraFood.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.ADD_BODY_EFFECT)){
                 broker.addCommand( new AddBodyCommand(operation));
             } else if (extraFood.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.INCREASE_SPEED_EFFECT)){
@@ -249,6 +252,7 @@ public class ZnakeController implements ActionListener {
             broker.addCommand(new PlusScoreCommand(operation, extraFood));
             broker.executeCommand(); // execute command
             extraFood = null;
+            effectTimer.start();
         }
     }
     

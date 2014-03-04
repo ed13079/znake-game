@@ -20,8 +20,8 @@ public final class ZnakeConstants {
     
     // Znake
     public static final int DEFAULT_SNAKE_LENGTH = 4;
-    public static final int DEFAULT_SPEED_1 = 200;
-    public static final int DELTA_SPEED = 25;
+    public static final int DEFAULT_SPEED_1 = 140;
+    public static final int DELTA_SPEED = 50;
     public static final int DEFAULT_SCORE = 5;
     public static final int DEFAULT_EXTRA_SCORE = 10;
     public static final int DEFAULT_EXTRA_TIME_REMAINING = 10000; // in miliseconds
@@ -43,7 +43,8 @@ public final class ZnakeConstants {
     public static final String SUB_BODY_EFFECT = "Sub Body effect";
     public static final String ADD_BODY_EFFECT = "Add Body effect";
     public static final String REVERSE_DIRECTION_EFFECT = "Reverse direction effect";
-    public static final int nObjekExtra = 5;
+    public static final String CLEAR_EFFECT = "clear effect";
+    public static final int N_OBJECT_EXTRA = 6;
     
     // foodName
     public static final String DEFAULT_FOOD = "Default Food";
