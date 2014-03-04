@@ -167,7 +167,6 @@ public class Znake {
     }
     
     // harusnya return-kan clonenya, biar ga diganti-ganti si positionnya
-    // sehingga kita mengimplementasikan prototype design pattern
     public ZnakeBodyPart getZnakeBodyPart(int i) {
         // return bodyParts.get(i).clone();
         return bodyParts.get(i);
