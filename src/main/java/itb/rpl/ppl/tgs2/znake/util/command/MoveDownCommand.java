@@ -12,10 +12,11 @@ import itb.rpl.ppl.tgs2.znake.util.ZnakeOperation;
  *
  * @author edbert
  */
-public class MoveDownCommand extends MoveCommand {
+public class MoveDownCommand implements ZnakeCommand {
+    ZnakeOperation operation;
     
     public MoveDownCommand(ZnakeOperation operation) {
-        super(operation);
+        this.operation = operation;
     }
     
     @Override

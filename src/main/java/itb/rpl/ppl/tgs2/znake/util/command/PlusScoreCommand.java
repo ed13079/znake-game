@@ -17,11 +17,7 @@ public class PlusScoreCommand implements ZnakeCommand {
     
     private ZnakeOperation operation;
     private int score;
-    
-//    public PlusScoreCommand(ZnakeOperation operation, Food food) {
-//        this(operation, food.getEffect().getScore());
-//    }
-    
+       
     public PlusScoreCommand(ZnakeOperation operation, Food food) {
         this.operation = operation;
         this.score = food.getEffect().getScore();

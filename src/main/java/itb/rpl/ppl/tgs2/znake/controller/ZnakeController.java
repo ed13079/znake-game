@@ -31,9 +31,8 @@ public class ZnakeController implements ActionListener {
     private JPanel scorePanel;
     private JPanel northPanel;
     private JLabel scoreLabel;
-    private JPanel snakePanel;
 
-    private SwingWorker<String, Void> threadMove;
+    //private SwingWorker<String, Void> threadMove;
     private Znake znake;
     private ZnakeOperation operation;
     private ZBroker broker;
@@ -41,6 +40,7 @@ public class ZnakeController implements ActionListener {
     private Food extraFood;
     //private Random random;
     private Timer timer;
+    private Timer extraFoodTimer;
     private Player player;
             
     private volatile boolean running;
@@ -71,7 +71,7 @@ public class ZnakeController implements ActionListener {
         scorePanel.setPreferredSize(new Dimension(80, 30));
         northPanel.add(scorePanel);
         
-        scoreLabel.setText("Score: 1000");
+        scoreLabel.setText("Score: 0");
         scoreLabel.setBounds(12, 3, 70, 21);
         scorePanel.add(scoreLabel);
         
@@ -91,7 +91,7 @@ public class ZnakeController implements ActionListener {
         };
         
         board.setBackground(Color.white);
-        board.setLayout(new CardLayout());
+        board.setLayout(null);
         container.add(board, BorderLayout.CENTER);
         
 //        threadMove = new SwingWorker<String, Void>() {
@@ -112,7 +112,13 @@ public class ZnakeController implements ActionListener {
 //                return null;
 //            }
 //        };
-        
+        extraFoodTimer = new Timer(5000, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                extraFood = null;
+            }
+        });
         createDefaultFood();
     }
     
@@ -130,7 +136,7 @@ public class ZnakeController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (running) {
             checkFood();
-            timer.setDelay(znake.getSpeed() - 100);
+            timer.setDelay(znake.getSpeed());
             znake.move(direction);
         } else {
             timer.stop();
@@ -184,53 +190,68 @@ public class ZnakeController implements ActionListener {
      * Create default food dipakai ketika inisialisasi dan makanan sudah dimakan ular.
      */
     private void createDefaultFood() {
-        //Food food;
         food = FoodFactory.getFoodSnake(ZnakeConstants.NORMAL_EFFECT);
-        //return food;
     }
     
     private void createExtraFood() {
-        extraFood = FoodFactory.getFoodSnake(ZnakeConstants.EXTRA_FOOD);
+        int indexObjExtra = 0;
+        String extraFoodEffect = "";
+        
+        // random effect extra
+        indexObjExtra = ((int)(Math.random() * 10)) % ZnakeConstants.nObjekExtra;
+        //indexObjExtra = 4;
+        if (indexObjExtra == 0) {
+            extraFoodEffect = ZnakeConstants.ADD_BODY_EFFECT;
+        }else if (indexObjExtra == 1) {
+            extraFoodEffect = ZnakeConstants.SUB_BODY_EFFECT;
+        }else if (indexObjExtra == 2) {
+            extraFoodEffect = ZnakeConstants.INCREASE_SPEED_EFFECT;
+        }else if (indexObjExtra == 3) {
+            extraFoodEffect = ZnakeConstants.DECREASE_SPEED_EFFECT;
+        }else if (indexObjExtra == 4) {
+            extraFoodEffect = ZnakeConstants.REVERSE_DIRECTION_EFFECT;
+        }
+        
+        extraFood = FoodFactory.getFoodSnake(extraFoodEffect);
     }
     
     private void checkFood() {
         ZnakeBodyPart head = znake.getZnakeBodyPart(0);
         
-        if (head.getPosition().equals(food.getPosition())) {
-            if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.NORMAL_EFFECT)){
-                broker.addCommand( new AddBodyCommand(operation));
-            } else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.ADD_BODY_EFFECT)){
-                broker.addCommand( new AddBodyCommand(operation));
-            } else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.INCREASE_SPEED_EFFECT)){
-                broker.addCommand( new IncreaseSpeedCommand(operation)); // 
-            } else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.DECREASE_SPEED_EFFECT)){
-                broker.addCommand( new DecreaseSpeedCommand(operation));
-            } else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.REVERSE_DIRECTION_EFFECT)){
-                broker.addCommand( new ReverseDirection(operation));
-            } else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.SUB_BODY_EFFECT)){
-                broker.addCommand( new SubBodyCommand(operation));
-            }
+        // cek ketika snake makan default food
+        if (head.getPosition().equals(food.getPosition())) {          
+            broker.addCommand( new AddBodyCommand(operation));
             broker.addCommand(new PlusScoreCommand(operation, food));
             broker.executeCommand(); // execute command
             
             createDefaultFood();
-            if (player.getScore() % 50 == 0) {
-                createExtraFood();
+            // cek score jika sudah mencapai 10 create extra food
+            if (player.getScore() % 10 == 0) {
+                    createExtraFood();
+                    //extraFoodTimer.start();
+                    System.out.println(extraFood.getEffect().getEffectName());
             }
         }
+        
+         // cek ketika snake makan extra food
         if (extraFood != null && head.getPosition().equals(extraFood.getPosition())) {
+            if (extraFood.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.ADD_BODY_EFFECT)){
+                broker.addCommand( new AddBodyCommand(operation));
+            } else if (extraFood.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.INCREASE_SPEED_EFFECT)){
+                broker.addCommand( new IncreaseSpeedCommand(operation));
+            } else if (extraFood.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.DECREASE_SPEED_EFFECT)){
+                broker.addCommand( new DecreaseSpeedCommand(operation));
+            } else if (extraFood.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.REVERSE_DIRECTION_EFFECT)){
+                broker.addCommand( new ReverseDirection(operation));
+            } else if (extraFood.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.SUB_BODY_EFFECT)){
+                broker.addCommand( new SubBodyCommand(operation));
+            }
+            broker.addCommand(new PlusScoreCommand(operation, extraFood));
+            broker.executeCommand(); // execute command
             extraFood = null;
         }
     }
     
-//    public Rectangle getActualBounds(Point position) {
-//        return new Rectangle(
-//            position.x * ZnakeConstants.DOT_WIDTH,
-//            position.y * ZnakeConstants.DOT_HEIGHT,
-//                ZnakeConstants.DOT_WIDTH,
-//                ZnakeConstants.DOT_HEIGHT
-//        );
-//    }
     
     public Point getActualPosition(Point position) {
         return new Point(

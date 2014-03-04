@@ -31,12 +31,12 @@ public class ZnakeOperation {
         playerObj.addScore(score);
     }
     
-    public void increaseSpeed(int speed) {
-        
+    public void increaseSpeed() {
+        Znake.getInstance().setSpeed(Znake.getInstance().getSpeed()-ZnakeConstants.DELTA_SPEED);
     }
     
-    public void decreaseSpeed(int speed) {
-        
+    public void decreaseSpeed() {
+        Znake.getInstance().setSpeed(Znake.getInstance().getSpeed()+ZnakeConstants.DELTA_SPEED);
     }
     
     public void addBody() {
@@ -48,7 +48,7 @@ public class ZnakeOperation {
     }
     
     public void reverseDirection(){
-        //snakeObj.setDirectionFlag(snakeObj.getDirectionFlag() * ZnakeConstants.DIRECTION_ABNORMAL);
+        Znake.getInstance().setDirectionFlag(Znake.getInstance().getDirectionFlag() * ZnakeConstants.DIRECTION_ABNORMAL);
     }
     
     public void moveUp() {

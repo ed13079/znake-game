@@ -22,6 +22,6 @@ public class SubBodyCommand implements ZnakeCommand {
     
     @Override
     public void execute() {
-        
+        operation.subBody();
     }
 }

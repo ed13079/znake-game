@@ -114,6 +114,11 @@ public class Znake {
         bodyParts.remove(bodyParts.size() - 1);
     }
     
+    public void clearEffect() {
+        speed = ZnakeConstants.DEFAULT_SPEED_1;
+        directionFlag = ZnakeConstants.DIRECTION_NORMAL;
+    }
+    
 //    public void abnormalDirectionEffect() {
 //        directionFlag = ZnakeConstants.DIRECTION_ABNORMAL;
 //    }

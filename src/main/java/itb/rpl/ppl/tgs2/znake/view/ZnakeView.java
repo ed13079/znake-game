@@ -61,7 +61,7 @@ public class ZnakeView extends javax.swing.JFrame {
         keyAdapter = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                ZnakeCommand cmd;
+                ZnakeCommand cmd = null;
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP:
                         cmd = new MoveUpCommand(engine.getZnakeOperation());
@@ -75,8 +75,8 @@ public class ZnakeView extends javax.swing.JFrame {
                     case KeyEvent.VK_LEFT:
                         cmd = new MoveLeftCommand(engine.getZnakeOperation());
                         break;
-                    default:
-                        cmd = new MoveCommand(engine.getZnakeOperation());
+                    //default:
+                        //cmd = new MoveCommand(engine.getZnakeOperation());
                 }
                 cmd.execute();
             }

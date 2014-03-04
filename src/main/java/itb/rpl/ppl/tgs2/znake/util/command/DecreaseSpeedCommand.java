@@ -21,5 +21,6 @@ public class DecreaseSpeedCommand implements ZnakeCommand {
     
     @Override
     public void execute() {
+        operation.decreaseSpeed();
     }
 }
