@@ -15,12 +15,13 @@ public class ExtraFood implements Food {
     public ExtraFood(String effectName) {
         this.effect = new Effect(ZnakeConstants.DEFAULT_SCORE, effectName);
         this.foodName = ZnakeConstants.EXTRA_FOOD;
+        this.position = new Point();
             // random position 
-        this.position = 
+        /*this.position = 
             new Point(
                 (int)(Math.random() * ZnakeConstants.BOARD_WIDTH), // value random for x (beetween 0 and limit max board WIDTH)
                 (int)(Math.random() * ZnakeConstants.BOARD_HEIGHT) // value random for y (beetween 0 and limit max board HEIGHT)
-            );
+            );*/
     
     }
     
