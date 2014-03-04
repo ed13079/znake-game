@@ -17,7 +17,8 @@ import javax.swing.*;
  *
  * @author wirasta1330
  */
-public class ZnakeController implements ActionListener {
+public class ZnakeController {
+//implements ActionListener {
     
     private JPanel container;
     private JPanel board;
@@ -25,7 +26,7 @@ public class ZnakeController implements ActionListener {
     private JPanel northPanel;
     private JLabel scoreLabel;
 
-    //private SwingWorker<String, Void> threadMove;
+    private SwingWorker<String, Void> threadMove;
     private Znake znake;
     private ZnakeOperation operation;
     private ZBroker broker;
@@ -36,6 +37,7 @@ public class ZnakeController implements ActionListener {
     private Timer extraFoodTimer;
     private Timer effectTimer;
     private Player player;
+    private int foodCount;
             
     private volatile boolean running;
     //private volatile int direction;
@@ -71,7 +73,7 @@ public class ZnakeController implements ActionListener {
         
         player = Player.getInstance();
         broker = new ZBroker();
-        operation = new ZnakeOperation(this);
+        operation = new ZnakeOperation();
         znake = Znake.getInstance();
         znake.generateBody(ZnakeConstants.INIT_POS_X, ZnakeConstants.INIT_POS_Y);
         //direction = ZnakeConstants.EAST;
@@ -88,32 +90,32 @@ public class ZnakeController implements ActionListener {
         board.setLayout(null);
         container.add(board, BorderLayout.CENTER);
         
-//        threadMove = new SwingWorker<String, Void>() {
-//            @Override
-//            public String doInBackground() {
-//                while (running) {
-//                    try {
-//                        Thread.sleep(znake.getSpeed());
-//                    } catch (InterruptedException e) {
-//                    }
-//                    znake.move(getDirection());
-//                    for (int i = 0; i < znake.getZnakeBodyParts().size(); i++) {
-//                        ZnakeBodyPart zbp = znake.getZnakeBodyParts().get(i);
-//                        zbp.setBounds(getActualPosition(zbp.getPosition()));
-//                    }
-//                    board.revalidate();
-//                }
-//                return null;
-//            }
-//        };
-        extraFoodTimer = new Timer(5000, new ActionListener() {
+        threadMove = new SwingWorker<String, Void>() {
+            @Override
+            public String doInBackground() {
+                while (running) {
+                    try {
+                        Thread.sleep(znake.getSpeed());
+                    } catch (InterruptedException e) {
+                    }
+                    checkFood();
+                    checkExtraFood();
+                    checkCollision();
+                    znake.move(0);
+                    scoreLabel.setText("Score: " + player.getScore());
+                    board.repaint();
+                }
+                return null;
+            }
+        };
+        extraFoodTimer = new Timer(ZnakeConstants.DEFAULT_EXTRA_TIME_REMAINING + 5000, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 extraFood = null;
             }
         });
-        effectTimer = new Timer(15000, new ActionListener() {
+        effectTimer = new Timer(ZnakeConstants.EFFECT_TIME, new ActionListener() {
            
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -129,25 +131,25 @@ public class ZnakeController implements ActionListener {
      */
     public void run() {
         running = true;
-        //threadMove.execute();
-        timer = new Timer(ZnakeConstants.DEFAULT_SPEED_1, this);
-        timer.start();
+        threadMove.execute();
+//        timer = new Timer(ZnakeConstants.DEFAULT_SPEED_1, this);
+//        timer.start();
     }
     
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (running) {
-            checkFood();
-            checkExtraFood();
-            checkCollision();
-            timer.setDelay(znake.getSpeed());
-            znake.move(0);
-        } else {
-            timer.stop();
-        }
-        scoreLabel.setText("Score: " + player.getScore());
-        board.repaint();
-    }
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        if (running) {
+//            checkFood();
+//            checkExtraFood();
+//            checkCollision();
+//            timer.setDelay(znake.getSpeed());
+//            znake.move(0);
+//        } else {
+//            timer.stop();
+//        }
+//        scoreLabel.setText("Score: " + player.getScore());
+//        board.repaint();
+//    }
     
     private void doDrawing(Graphics g) {
         if (running) {
@@ -185,13 +187,37 @@ public class ZnakeController implements ActionListener {
             g.dispose();
 
         } else {
-
-            //gameOver(g);
+            System.out.println("masuk sini");
+            doGameOverDrawing(g);
         }   
     }
     
+    private void doGameOverDrawing(Graphics g) {
+
+        String msg = "Game Over";
+        Font small = new Font("Helvetica", Font.BOLD, 14);
+        FontMetrics metr = board.getFontMetrics(small);
+
+        g.setColor(Color.BLACK);
+        g.setFont(small);
+        g.drawString(
+            msg, 
+            ((ZnakeConstants.BOARD_WIDTH * ZnakeConstants.DOT_WIDTH) - metr.stringWidth(msg)) / 2, 
+            ((ZnakeConstants.BOARD_HEIGHT * ZnakeConstants.DOT_HEIGHT) - 30) / 2);
+        
+        msg = "Your score is: " + player.getScore();
+        small = new Font("Helvetica", Font.BOLD, 14);
+        metr = board.getFontMetrics(small);
+
+        g.setColor(Color.BLACK);
+        g.setFont(small);
+        g.drawString(
+            msg, 
+            ((ZnakeConstants.BOARD_WIDTH * ZnakeConstants.DOT_WIDTH) - metr.stringWidth(msg)) / 2, 
+            ((ZnakeConstants.BOARD_HEIGHT * ZnakeConstants.DOT_HEIGHT) + 30) / 2);
+    }
+    
     public void moveTo(int keyCode) {
-        //ZnakeCommand cmd = null;
         switch (keyCode) {
             case KeyEvent.VK_UP:
                 broker.addCommand(
@@ -230,7 +256,7 @@ public class ZnakeController implements ActionListener {
         int indexObjExtra = 0;
         String extraFoodEffect = "";
         
-        // random effect extra
+        // Random effect extra
         indexObjExtra = ((int) (Math.random() * 10)) % ZnakeConstants.N_OBJECT_EXTRA;
         //indexObjExtra = 4;
         if (indexObjExtra == 0) {
@@ -251,18 +277,21 @@ public class ZnakeController implements ActionListener {
     private void checkFood() {
         ZnakeBodyPart head = znake.getZnakeBodyPart(0);
         
-        // cek ketika snake makan default food
+        // Cek ketika snake makan default food
         if (head.getPosition().equals(food.getPosition())) {          
             broker.addCommand( new AddBodyCommand(operation));
             broker.addCommand(new PlusScoreCommand(operation, food));
             broker.executeCommand(); // execute command
+            ++foodCount;
             
             createDefaultFood();
             
-            // cek score jika sudah mencapai 10 create extra food
-            if (player.getScore() % 10 == 0) {
+            // Cek score jika sudah mencapai 10 create extra food
+            //if (player.getScore() % 10 == 0) {
+            if (foodCount % 5 == 0){
                 createExtraFood();
-                //extraFoodTimer.start();
+                //extraFoodTimer.stop();
+                extraFoodTimer.restart();
                 System.out.println(extraFood.getEffect().getEffectName());
             }
         }
@@ -272,9 +301,10 @@ public class ZnakeController implements ActionListener {
     
     public void checkExtraFood() {
         ZnakeBodyPart head = znake.getZnakeBodyPart(0);        
-        // cek ketika snake makan extra food
+        // Cek ketika snake makan extra food
         if (extraFood != null && head.getPosition().equals(extraFood.getPosition())) {
             effectTimer.stop();
+            
             broker.addCommand(new ClearEffectCommand(operation));
             if (extraFood.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.ADD_BODY_EFFECT)){
                 broker.addCommand( new AddBodyCommand(operation));
@@ -288,7 +318,7 @@ public class ZnakeController implements ActionListener {
                 broker.addCommand( new SubBodyCommand(operation));
             }
             broker.addCommand(new PlusScoreCommand(operation, extraFood));
-            broker.executeCommand(); // execute command
+            broker.executeCommand(); // Execute command
             extraFood = null;
             effectTimer.start();
         }
@@ -318,14 +348,6 @@ public class ZnakeController implements ActionListener {
     /*
      * Getter and setter
      */
-    
-//    public int getDirection() {
-//        return direction;
-//    }
-//    
-//    public void setDirection(int direction) {
-//        this.direction = direction;
-//    }
     
     // belum ada yg manggil
     public ZnakeOperation getZnakeOperation() {

@@ -6,12 +6,9 @@
 
 package itb.rpl.ppl.tgs2.znake.util;
 
-import itb.rpl.ppl.tgs2.znake.util.ZnakeConstants;
 import itb.rpl.ppl.tgs2.znake.controller.ZnakeController;
 import itb.rpl.ppl.tgs2.znake.model.player.Player;
 import itb.rpl.ppl.tgs2.znake.model.snake.Znake;
-import itb.rpl.ppl.tgs2.znake.model.snake.ZnakeBodyPart;
-import java.awt.Point;
 
 /**
  *
@@ -19,12 +16,10 @@ import java.awt.Point;
  */
 public class ZnakeOperation {
     
-    private final ZnakeController engine;
     private Znake znake = Znake.getInstance();
     private Player playerObj = Player.getInstance();
     
-    public ZnakeOperation(ZnakeController controller) {
-        this.engine = controller;
+    public ZnakeOperation() {
     }
     
     public void plusScore(int score) {

@@ -24,7 +24,7 @@ public final class ZnakeConstants {
     public static final int DELTA_SPEED = 50;
     public static final int DEFAULT_SCORE = 5;
     public static final int DEFAULT_EXTRA_SCORE = 10;
-    public static final int DEFAULT_EXTRA_TIME_REMAINING = 10000; // in miliseconds
+    public static final int DEFAULT_EXTRA_TIME_REMAINING = 5000; // in miliseconds
     public static final int INIT_POS_X = 7;
     public static final int INIT_POS_Y = 7; 
     public static final int DIRECTION_NORMAL = 1; 
@@ -45,6 +45,7 @@ public final class ZnakeConstants {
     public static final String REVERSE_DIRECTION_EFFECT = "Reverse direction effect";
     public static final String CLEAR_EFFECT = "clear effect";
     public static final int N_OBJECT_EXTRA = 5;
+    public static final int EFFECT_TIME = 5000;
     
     // foodName
     public static final String DEFAULT_FOOD = "Default Food";

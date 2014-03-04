@@ -68,11 +68,11 @@ public class ZnakeView extends javax.swing.JFrame {
         this.add(engine.getPanel());
         engine.run();
         
+        setTitle("Znake");
         setBounds(
             0, 0, 
             (ZnakeConstants.BOARD_WIDTH * ZnakeConstants.DOT_WIDTH) + 20,
             (ZnakeConstants.BOARD_HEIGHT * ZnakeConstants.DOT_HEIGHT) + 70);
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
