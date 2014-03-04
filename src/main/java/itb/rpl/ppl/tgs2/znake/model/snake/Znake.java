@@ -88,6 +88,8 @@ public class Znake {
 //        }
 //        bodyParts.get(bodyParts.size() - 1).setPosition(bodyParts.get(bodyParts.size() - 2).getPosition());
         
+        
+        
         for (int i = bodyParts.size() - 1; i > 0; i--) {
             bodyParts.get(i).setPosition(bodyParts.get(i - 1).getPosition());
         }
@@ -99,9 +101,17 @@ public class Znake {
         bodyParts.get(0).setPosition(point);
     }
     
-//    public void grow() {
+    /**
+     * Menambah panjang si ular.
+     */
+    public void grow() {
 //        grow = true;
-//    }
+        ZnakeBodyPart zbp = new ZnakeBodyPart();
+        zbp.setPosition(
+            new Point(bodyParts.get(bodyParts.size() - 1).getPosition())
+        );
+        bodyParts.add(bodyParts.size() - 1, zbp);
+    }
 
     /*
     public void justifyZnakePosition(ZnakeBodyPart bodyPart) {
@@ -156,7 +166,10 @@ public class Znake {
         return bodyParts.size();
     }
     
+    // harusnya return-kan clonenya, biar ga diganti-ganti si positionnya
+    // sehingga kita mengimplementasikan prototype design pattern
     public ZnakeBodyPart getZnakeBodyPart(int i) {
+        // return bodyParts.get(i).clone();
         return bodyParts.get(i);
     }
     
@@ -164,9 +177,10 @@ public class Znake {
      * Getter and setter 
      */
     
-    public List<ZnakeBodyPart> getZnakeBodyParts() {
-        return bodyParts;
-    }
+    // Bahaya kali diginikan, tr kelas lain bisa semena-mena manipulasi objek ular
+//    public List<ZnakeBodyPart> getZnakeBodyParts() {
+//        return bodyParts;
+//    }
     
     public int getSpeed() {
         return speed;

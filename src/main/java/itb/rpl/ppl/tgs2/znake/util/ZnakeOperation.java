@@ -20,7 +20,8 @@ import java.awt.Point;
 public class ZnakeOperation {
     
     private final ZnakeController engine;
-    Znake snakeObj = Znake.getInstance();
+    //private Znake snakeObj = Znake.getInstance();
+    
     Player playerObj = Player.getInstance();
     public ZnakeOperation(ZnakeController controller) {
         this.engine = controller;
@@ -38,12 +39,14 @@ public class ZnakeOperation {
         
     }
     
-    public void addBody(){
-         ZnakeBodyPart zbp = new ZnakeBodyPart();
-         zbp.setPosition(
-                new Point(snakeObj.getZnakeBodyParts().get(snakeObj.getZnakeBodyParts().size() - 1).getPosition())
-         );
-         snakeObj.getZnakeBodyParts().add(zbp);
+    // Biarkan objek ular yang mengurusi pertumbuhannya
+    public void addBody() {
+//         ZnakeBodyPart zbp = new ZnakeBodyPart();
+//         zbp.setPosition(
+//                new Point(snakeObj.getZnakeBodyParts().get(snakeObj.getZnakeBodyParts().size() - 1).getPosition())
+//         );
+//         snakeObj.getZnakeBodyParts().add(zbp);
+        Znake.getInstance().grow(); // Sehingga kita lebih ngerti apa maksud ini.
     }
     
     public void subBody(){
