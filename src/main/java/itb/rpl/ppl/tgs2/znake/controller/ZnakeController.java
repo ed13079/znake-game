@@ -288,7 +288,7 @@ public class ZnakeController {
             
             // Cek score jika sudah mencapai 10 create extra food
             //if (player.getScore() % 10 == 0) {
-            if (foodCount % 5 == 0){
+            if (foodCount % 5 == 0) {
                 createExtraFood();
                 //extraFoodTimer.stop();
                 extraFoodTimer.restart();
