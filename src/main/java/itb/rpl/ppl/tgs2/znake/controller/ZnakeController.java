@@ -8,6 +8,7 @@ import itb.rpl.ppl.tgs2.znake.model.food.FoodFactory;
 import itb.rpl.ppl.tgs2.znake.model.player.Player;
 import itb.rpl.ppl.tgs2.znake.util.command.*;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -17,8 +18,6 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
 /**
@@ -32,12 +31,14 @@ public class ZnakeController implements ActionListener {
     private JPanel scorePanel;
     private JPanel northPanel;
     private JLabel scoreLabel;
+    private JPanel snakePanel;
 
-    //private SwingWorker<String, Void> threadMove;
+    private SwingWorker<String, Void> threadMove;
     private Znake znake;
     private ZnakeOperation operation;
     private ZBroker broker;
     private Food food;
+    private Food extraFood;
     //private Random random;
     private Timer timer;
     private Player player;
@@ -45,7 +46,7 @@ public class ZnakeController implements ActionListener {
     private volatile boolean running;
     private volatile int direction;
     
-    private final Object dirObj = new Object();
+    //private final Object dirObj = new Object();
     
     public ZnakeController() {
         initializeComponents();
@@ -80,6 +81,7 @@ public class ZnakeController implements ActionListener {
         znake = Znake.getInstance();
         znake.generateBody(ZnakeConstants.INIT_POS_X, ZnakeConstants.INIT_POS_Y);
         direction = ZnakeConstants.EAST;
+        
         board = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
@@ -89,18 +91,8 @@ public class ZnakeController implements ActionListener {
         };
         
         board.setBackground(Color.white);
-        board.setLayout(null);
+        board.setLayout(new CardLayout());
         container.add(board, BorderLayout.CENTER);
-        // set snake in board
-//        for (ZnakeBodyPart zbp : znake.getZnakeBodyParts()) {
-//            zbp.setBounds(getActualBounds(zbp.getPosition()));
-//            board.add(zbp);
-//        }
-        // set food in board
-//        foodView = new JPanel();
-//        foodView.setBounds(drawFood(createDefaultFood()));
-//        foodView.setBackground(Color.BLUE);
-//        board.add(foodView);
         
 //        threadMove = new SwingWorker<String, Void>() {
 //            @Override
@@ -121,7 +113,7 @@ public class ZnakeController implements ActionListener {
 //            }
 //        };
         
-        food = createDefaultFood();
+        createDefaultFood();
     }
     
     /**
@@ -138,7 +130,7 @@ public class ZnakeController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (running) {
             checkFood();
-            timer.setDelay(znake.getSpeed());
+            timer.setDelay(znake.getSpeed() - 100);
             znake.move(direction);
         } else {
             timer.stop();
@@ -154,6 +146,12 @@ public class ZnakeController implements ActionListener {
             //g.drawImage(apple, apple_x, apple_y, this);
             g.setColor(Color.red);
             g.fillRect(p.x, p.y, ZnakeConstants.DOT_WIDTH, ZnakeConstants.DOT_HEIGHT);
+            
+            if (extraFood != null) {
+                p = getActualPosition(extraFood.getPosition());
+                g.setColor(Color.blue);
+                g.fillRect(p.x, p.y, ZnakeConstants.DOT_WIDTH, ZnakeConstants.DOT_HEIGHT);
+            }
             
             znake.getZnakeBodyPart(1).getPosition().x = 11;
 
@@ -185,10 +183,14 @@ public class ZnakeController implements ActionListener {
     /**
      * Create default food dipakai ketika inisialisasi dan makanan sudah dimakan ular.
      */
-    private Food createDefaultFood() {
-        Food food;
+    private void createDefaultFood() {
+        //Food food;
         food = FoodFactory.getFoodSnake(ZnakeConstants.NORMAL_EFFECT);
-        return food;
+        //return food;
+    }
+    
+    private void createExtraFood() {
+        extraFood = FoodFactory.getFoodSnake(ZnakeConstants.EXTRA_FOOD);
     }
     
     private void checkFood() {
@@ -209,41 +211,26 @@ public class ZnakeController implements ActionListener {
                 broker.addCommand( new SubBodyCommand(operation));
             }
             broker.addCommand(new PlusScoreCommand(operation, food));
-            //znake.grow();// harusnya execute commad
             broker.executeCommand(); // execute command
-            food = createDefaultFood();
+            
+            createDefaultFood();
+            if (player.getScore() % 50 == 0) {
+                createExtraFood();
+            }
+        }
+        if (extraFood != null && head.getPosition().equals(extraFood.getPosition())) {
+            extraFood = null;
         }
     }
     
-    // create ketika sudah mencapai score habis dibagi 50
-    private Food createExtraFood() {
-//        int foodXPos = random.nextInt(ZnakeConstants.BOARD_WIDTH);
-//        int foodYPos = random.nextInt(ZnakeConstants.BOARD_HEIGHT);
-        Food food;
-//        boolean addFoodAllowed = false;
-        
-//        do {
-            food = FoodFactory.getFoodSnake(ZnakeConstants.NORMAL_EFFECT);
-//        } while (!addFoodAllowed);
-            return food;
-    }
-    
-    /**
-     * Oleh karena posisi-posisi elemen ZnakeElement pake posisi tidak sebenarnya,
-     * maka untuk ditampilkan ke layar harus pake ukuran dalam pixel. Di sinilah
-     * method itu berguna.
-     * 
-     * @param position Elemen Znake yang mau dicari posisi Actualnya
-     * @return Lokasi dan panjang-lebar elemen
-     */
-    public Rectangle getActualBounds(Point position) {
-        return new Rectangle(
-            position.x * ZnakeConstants.DOT_WIDTH,
-            position.y * ZnakeConstants.DOT_HEIGHT,
-                ZnakeConstants.DOT_WIDTH,
-                ZnakeConstants.DOT_HEIGHT
-        );
-    }
+//    public Rectangle getActualBounds(Point position) {
+//        return new Rectangle(
+//            position.x * ZnakeConstants.DOT_WIDTH,
+//            position.y * ZnakeConstants.DOT_HEIGHT,
+//                ZnakeConstants.DOT_WIDTH,
+//                ZnakeConstants.DOT_HEIGHT
+//        );
+//    }
     
     public Point getActualPosition(Point position) {
         return new Point(
@@ -257,16 +244,11 @@ public class ZnakeController implements ActionListener {
      */
     
     public int getDirection() {
-        synchronized (dirObj) {
-            return direction;
-        }
+        return direction;
     }
     
-    // belum ada yg manggil
     public void setDirection(int direction) {
-        synchronized (dirObj) {
-            this.direction = direction;
-        }
+        this.direction = direction;
     }
     
     // belum ada yg manggil

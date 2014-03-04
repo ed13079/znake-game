@@ -15,7 +15,7 @@ public class FoodFactory {
     // Implementasi pattern flyweight
     private static HashMap<String, Food> feedMap = new HashMap<String, Food>();
    
-    public static Food getFoodSnake (String foodType){
+    public static Food getFoodSnake(String foodType){
         Food foodObject = feedMap.get(foodType);
 
         if (foodObject == null) { // check apakah objek food sudah dibuat sebelumnya
