@@ -3,6 +3,8 @@ package itb.rpl.ppl.tgs2.znake;
 import itb.rpl.ppl.tgs2.znake.model.food.Food;
 import itb.rpl.ppl.tgs2.znake.model.food.FoodFactory;
 import itb.rpl.ppl.tgs2.znake.view.ZnakeView;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  * Hello world!
@@ -23,7 +25,12 @@ public class Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ZnakeView().setVisible(true);
+                ZnakeView zv = new ZnakeView();
+                zv.setVisible(true);
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    SwingUtilities.updateComponentTreeUI(zv);
+                } catch (Exception e) { }
             }
         });
     }

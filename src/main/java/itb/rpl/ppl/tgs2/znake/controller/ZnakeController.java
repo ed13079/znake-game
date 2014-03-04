@@ -7,14 +7,18 @@ import itb.rpl.ppl.tgs2.znake.model.snake.*;
 import itb.rpl.ppl.tgs2.znake.model.food.FoodFactory;
 import itb.rpl.ppl.tgs2.znake.model.player.Player;
 import itb.rpl.ppl.tgs2.znake.util.command.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
 /**
@@ -23,7 +27,12 @@ import javax.swing.*;
  */
 public class ZnakeController implements ActionListener {
     
-    private JPanel board, foodView;
+    private JPanel container;
+    private JPanel board;
+    private JPanel scorePanel;
+    private JPanel northPanel;
+    private JLabel scoreLabel;
+
     //private SwingWorker<String, Void> threadMove;
     private Znake znake;
     private ZnakeOperation operation;
@@ -32,7 +41,6 @@ public class ZnakeController implements ActionListener {
     //private Random random;
     private Timer timer;
     private Player player;
-    private JLabel labelScore;
             
     private volatile boolean running;
     private volatile int direction;
@@ -47,6 +55,25 @@ public class ZnakeController implements ActionListener {
      * Inisialisasi komponen-komponen controller
      */
     private void initializeComponents() {
+        container = new JPanel();
+        northPanel = new JPanel();
+        scorePanel = new JPanel();
+        scoreLabel = new JLabel();
+        
+        container.setLayout(new BorderLayout());
+        
+        northPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        northPanel.setPreferredSize(new Dimension(20, 30));
+        container.add(northPanel, BorderLayout.NORTH);
+        
+        scorePanel.setLayout(null);
+        scorePanel.setPreferredSize(new Dimension(80, 30));
+        northPanel.add(scorePanel);
+        
+        scoreLabel.setText("Score: 1000");
+        scoreLabel.setBounds(12, 3, 70, 21);
+        scorePanel.add(scoreLabel);
+        
         player = Player.getInstance();
         broker = new ZBroker();
         operation = new ZnakeOperation(this);
@@ -60,11 +87,10 @@ public class ZnakeController implements ActionListener {
                 doDrawing(g);
             }
         };
-        labelScore = new JLabel();
-        labelScore.setText("Score = " + player.getScore());
-        labelScore.setVisible(true);
-        board.add(labelScore);
+        
+        board.setBackground(Color.white);
         board.setLayout(null);
+        container.add(board, BorderLayout.CENTER);
         // set snake in board
 //        for (ZnakeBodyPart zbp : znake.getZnakeBodyParts()) {
 //            zbp.setBounds(getActualBounds(zbp.getPosition()));
@@ -117,7 +143,7 @@ public class ZnakeController implements ActionListener {
         } else {
             timer.stop();
         }
-        labelScore.setText("Score = " + player.getScore());
+        scoreLabel.setText("Score : " + player.getScore());
         board.repaint();
     }
     
@@ -226,15 +252,6 @@ public class ZnakeController implements ActionListener {
         );
     }
     
-//     public Rectangle drawFood(Food food) {
-//        return new Rectangle(
-//            food.getPosition().x * ZnakeConstants.DOT_WIDTH,
-//            food.getPosition().y * ZnakeConstants.DOT_HEIGHT,
-//                ZnakeConstants.DOT_WIDTH,
-//                ZnakeConstants.DOT_HEIGHT
-//        );
-//    }
-    
     /*
      * Getter and setter
      */
@@ -264,7 +281,9 @@ public class ZnakeController implements ActionListener {
     
     // Dipanggil di view
     public JPanel getPanel() {
-        return board;
+        return container;
     }
+
+    
     
 }

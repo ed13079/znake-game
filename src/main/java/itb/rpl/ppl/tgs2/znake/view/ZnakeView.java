@@ -4,10 +4,15 @@ import itb.rpl.ppl.tgs2.znake.util.ZnakeConstants;
 import itb.rpl.ppl.tgs2.znake.util.command.*;
 import itb.rpl.ppl.tgs2.znake.controller.ZnakeController;
 import itb.rpl.ppl.tgs2.znake.model.snake.Znake;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.JButton;
-import javax.swing.SwingWorker;
+import java.beans.PropertyChangeListener;
+import javax.swing.*;
+//import javax.swing.SwingWorker;
 
 /**
  *
@@ -17,6 +22,10 @@ public class ZnakeView extends javax.swing.JFrame {
 
     private ZnakeController engine;
     private KeyAdapter keyAdapter;
+    private JPanel northPanel;
+    private JPanel scorePanel;
+    private JLabel scoreLabel;
+    private PropertyChangeListener scoreListener;
 
     /**
      * Creates new form ZnakeView
@@ -42,12 +51,13 @@ public class ZnakeView extends javax.swing.JFrame {
         jPanel1.setLayout(null);
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        setBounds(0, 0, 388, 350);
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void initializeComponents() {
+        
+        // Znake controller
         engine = new ZnakeController();
-
         keyAdapter = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -72,10 +82,13 @@ public class ZnakeView extends javax.swing.JFrame {
             }
         };
         addKeyListener(keyAdapter);
-        
         this.add(engine.getPanel());
-        
         engine.run();
+        
+        setBounds(
+            0, 0, 
+            ZnakeConstants.BOARD_WIDTH * ZnakeConstants.DOT_WIDTH,
+            ZnakeConstants.BOARD_HEIGHT * ZnakeConstants.DOT_HEIGHT);
         
     }
 
