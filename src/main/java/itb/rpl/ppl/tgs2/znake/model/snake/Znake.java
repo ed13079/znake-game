@@ -15,12 +15,12 @@ public class Znake {
     private List<ZnakeBodyPart> bodyParts = new ArrayList<ZnakeBodyPart>();
     private int direction;
     private int speed;
-    private int directionFlag = ZnakeConstants.DIRECTION_NORMAL;
-//    private boolean grow = false;
+    private int directionFlag;
     
     private Znake() {
-        direction = ZnakeConstants.NORTH;
+        direction = ZnakeConstants.EAST;
         speed = ZnakeConstants.DEFAULT_SPEED_1;
+        directionFlag = ZnakeConstants.DIRECTION_NORMAL;
     }
     
     public static Znake getInstance(){
@@ -58,7 +58,6 @@ public class Znake {
         }
     }
     
-    
     /**
      * Menjalankan si ular.
      * 
@@ -68,24 +67,12 @@ public class Znake {
         int dirX = 0;
         int dirY = 0;
         
-        switch (direction) {
-            case ZnakeConstants.NORTH: dirY = -1 * directionFlag; break;
-            case ZnakeConstants.SOUTH: dirY = 1 * directionFlag; break;
-            case ZnakeConstants.WEST: dirX = -1 * directionFlag; break;
-            case ZnakeConstants.EAST: dirX = 1 * directionFlag; break;
+        switch (getDirection()) {
+            case ZnakeConstants.NORTH: dirY = -1; break;
+            case ZnakeConstants.SOUTH: dirY = 1; break;
+            case ZnakeConstants.WEST: dirX = -1; break;
+            case ZnakeConstants.EAST: dirX = 1; break;
         }
-        
-//        if (grow) {
-//            grow = false;
-//            ZnakeBodyPart zbp = new ZnakeBodyPart();
-//            zbp.setPosition(
-//                new Point(bodyParts.get(bodyParts.size() - 1).getPosition())
-//            );
-//            bodyParts.add(bodyParts.size() - 1, zbp);
-//        } else {
-//            bodyParts.get(bodyParts.size() - 1).setPosition(bodyParts.get(bodyParts.size() - 2).getPosition());
-//        }
-//        bodyParts.get(bodyParts.size() - 1).setPosition(bodyParts.get(bodyParts.size() - 2).getPosition());
         
         for (int i = bodyParts.size() - 1; i > 0; i--) {
             bodyParts.get(i).setPosition(bodyParts.get(i - 1).getPosition());
@@ -121,9 +108,9 @@ public class Znake {
         directionFlag = ZnakeConstants.DIRECTION_NORMAL;
     }
     
-//    public void abnormalDirectionEffect() {
-//        directionFlag = ZnakeConstants.DIRECTION_ABNORMAL;
-//    }
+    public void reverseDirection() {
+        directionFlag = ZnakeConstants.DIRECTION_ABNORMAL;
+    }
     
     /**
      * Mastiin posisi bagian tubuh si ular biar ga menyimpang dari board yang
@@ -202,6 +189,10 @@ public class Znake {
 
     public void setDirectionFlag(int directionFlag) {
         this.directionFlag = directionFlag;
+    }
+    
+    public boolean isConfuse() {
+        return directionFlag == ZnakeConstants.DIRECTION_ABNORMAL;
     }
     
 }

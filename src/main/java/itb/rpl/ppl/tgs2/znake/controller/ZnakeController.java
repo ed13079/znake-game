@@ -38,7 +38,7 @@ public class ZnakeController implements ActionListener {
     private Player player;
             
     private volatile boolean running;
-    private volatile int direction;
+    //private volatile int direction;
     
     //private final Object dirObj = new Object();
     
@@ -74,7 +74,7 @@ public class ZnakeController implements ActionListener {
         operation = new ZnakeOperation(this);
         znake = Znake.getInstance();
         znake.generateBody(ZnakeConstants.INIT_POS_X, ZnakeConstants.INIT_POS_Y);
-        direction = ZnakeConstants.EAST;
+        //direction = ZnakeConstants.EAST;
         
         board = new JPanel() {
             @Override
@@ -138,13 +138,14 @@ public class ZnakeController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (running) {
             checkFood();
+            checkExtraFood();
             checkCollision();
             timer.setDelay(znake.getSpeed());
-            znake.move(direction);
+            znake.move(0);
         } else {
             timer.stop();
         }
-        scoreLabel.setText("Score : " + player.getScore());
+        scoreLabel.setText("Score: " + player.getScore());
         board.repaint();
     }
     
@@ -230,8 +231,8 @@ public class ZnakeController implements ActionListener {
         String extraFoodEffect = "";
         
         // random effect extra
-        //indexObjExtra = ((int)(Math.random() * 10)) % ZnakeConstants.N_OBJECT_EXTRA;
-        indexObjExtra = 2;
+        indexObjExtra = ((int) (Math.random() * 10)) % ZnakeConstants.N_OBJECT_EXTRA;
+        //indexObjExtra = 4;
         if (indexObjExtra == 0) {
             extraFoodEffect = ZnakeConstants.ADD_BODY_EFFECT;
         } else if (indexObjExtra == 1) {
@@ -257,15 +258,21 @@ public class ZnakeController implements ActionListener {
             broker.executeCommand(); // execute command
             
             createDefaultFood();
+            
             // cek score jika sudah mencapai 10 create extra food
             if (player.getScore() % 10 == 0) {
-                    createExtraFood();
-                    //extraFoodTimer.start();
-                    System.out.println(extraFood.getEffect().getEffectName());
+                createExtraFood();
+                //extraFoodTimer.start();
+                System.out.println(extraFood.getEffect().getEffectName());
             }
         }
         
-         // cek ketika snake makan extra food
+         
+    }
+    
+    public void checkExtraFood() {
+        ZnakeBodyPart head = znake.getZnakeBodyPart(0);        
+        // cek ketika snake makan extra food
         if (extraFood != null && head.getPosition().equals(extraFood.getPosition())) {
             effectTimer.stop();
             broker.addCommand(new ClearEffectCommand(operation));
@@ -296,7 +303,6 @@ public class ZnakeController implements ActionListener {
         for (int i = 1; i < znakeLength; i++) {
             if (head.getPosition().equals(znake.getZnakeBodyPart(i).getPosition())) {
                 running = false;
-                //i = znakeLength;
                 break;
             }
         }
@@ -313,13 +319,13 @@ public class ZnakeController implements ActionListener {
      * Getter and setter
      */
     
-    public int getDirection() {
-        return direction;
-    }
-    
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
+//    public int getDirection() {
+//        return direction;
+//    }
+//    
+//    public void setDirection(int direction) {
+//        this.direction = direction;
+//    }
     
     // belum ada yg manggil
     public ZnakeOperation getZnakeOperation() {

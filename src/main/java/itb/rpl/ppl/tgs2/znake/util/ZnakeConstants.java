@@ -44,7 +44,7 @@ public final class ZnakeConstants {
     public static final String ADD_BODY_EFFECT = "Add Body effect";
     public static final String REVERSE_DIRECTION_EFFECT = "Reverse direction effect";
     public static final String CLEAR_EFFECT = "clear effect";
-    public static final int N_OBJECT_EXTRA = 6;
+    public static final int N_OBJECT_EXTRA = 5;
     
     // foodName
     public static final String DEFAULT_FOOD = "Default Food";

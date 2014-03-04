@@ -20,9 +20,9 @@ import java.awt.Point;
 public class ZnakeOperation {
     
     private final ZnakeController engine;
-    //private Znake snakeObj = Znake.getInstance();
+    private Znake znake = Znake.getInstance();
+    private Player playerObj = Player.getInstance();
     
-    Player playerObj = Player.getInstance();
     public ZnakeOperation(ZnakeController controller) {
         this.engine = controller;
     }
@@ -32,54 +32,60 @@ public class ZnakeOperation {
     }
     
     public void increaseSpeed() {
-        Znake.getInstance().setSpeed(Znake.getInstance().getSpeed()-ZnakeConstants.DELTA_SPEED);
+        znake.setSpeed(Znake.getInstance().getSpeed()-ZnakeConstants.DELTA_SPEED);
     }
     
     public void decreaseSpeed() {
-        Znake.getInstance().setSpeed(Znake.getInstance().getSpeed()+ZnakeConstants.DELTA_SPEED);
+        znake.setSpeed(Znake.getInstance().getSpeed()+ZnakeConstants.DELTA_SPEED);
     }
     
     public void addBody() {
-        Znake.getInstance().grow(); // Biarkan znakenya yang bertumbuh
+        znake.grow();
     }
     
     public void subBody() {
-        Znake.getInstance().diet();
+        znake.diet();
     }
     
     public void reverseDirection() {
-        Znake.getInstance().setDirectionFlag(Znake.getInstance().getDirectionFlag() * ZnakeConstants.DIRECTION_ABNORMAL);
+        znake.reverseDirection();
     }
     
     public void clearEffect() {
-        Znake.getInstance().clearEffect();
+        znake.clearEffect();
     }
     
     public void moveUp() {
-        if (engine.getDirection() != ZnakeConstants.NORTH && 
-            engine.getDirection() != ZnakeConstants.SOUTH) {
-            engine.setDirection(ZnakeConstants.NORTH);
+        if (znake.getDirection() != ZnakeConstants.NORTH && 
+            znake.getDirection() != ZnakeConstants.SOUTH) {
+            
+            if (znake.isConfuse()) znake.setDirection(ZnakeConstants.SOUTH);
+            else znake.setDirection(ZnakeConstants.NORTH);
+            
         }
     }
     
     public void moveDown() {
-        if (engine.getDirection() != ZnakeConstants.NORTH &&
-            engine.getDirection() != ZnakeConstants.SOUTH) {
-            engine.setDirection(ZnakeConstants.SOUTH);
+        if (znake.getDirection() != ZnakeConstants.NORTH &&
+            znake.getDirection() != ZnakeConstants.SOUTH) {
+            if (znake.isConfuse()) znake.setDirection(ZnakeConstants.NORTH);
+            else znake.setDirection(ZnakeConstants.SOUTH);
         }
     }
     
     public void moveLeft() {
-        if (engine.getDirection() != ZnakeConstants.EAST &&
-            engine.getDirection() != ZnakeConstants.WEST) {
-            engine.setDirection(ZnakeConstants.WEST);
+        if (znake.getDirection() != ZnakeConstants.EAST &&
+            znake.getDirection() != ZnakeConstants.WEST) {
+            if (znake.isConfuse()) znake.setDirection(ZnakeConstants.EAST);
+            else znake.setDirection(ZnakeConstants.WEST);
         }
     }
     
     public void moveRight() {
-        if (engine.getDirection() != ZnakeConstants.EAST &&
-            engine.getDirection() != ZnakeConstants.WEST) {
-            engine.setDirection(ZnakeConstants.EAST);
+        if (znake.getDirection() != ZnakeConstants.EAST &&
+            znake.getDirection() != ZnakeConstants.WEST) {
+            if (znake.isConfuse()) znake.setDirection(ZnakeConstants.WEST);
+            else znake.setDirection(ZnakeConstants.EAST);
         }
     }
     
