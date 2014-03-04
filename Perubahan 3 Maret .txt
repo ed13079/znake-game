@@ -127,3 +127,15 @@ Perubahan-perubahan yang dilakukan adalah:
 2. Method createDefaultFactory() tanpa parameter, random dilakukan di dalam method.
 
 Sekian.
+
+================================================================================
+
+
+4 Maret 2014 19:44 WIB
+(Revisi source code dilakukan sama si Edbert)
+
+Perubahan yang dilakukan adalah mencoba fitur clear effect pada aplikasi
+
+Sekian
+
+=================================================================================
