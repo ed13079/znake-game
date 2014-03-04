@@ -10,6 +10,7 @@ import itb.rpl.ppl.tgs2.znake.util.ZnakeConstants;
 import itb.rpl.ppl.tgs2.znake.model.food.*;
 import java.awt.Point;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  *
@@ -80,7 +81,10 @@ public class FoodFactory {
 //  
     
     // method ini dipakai buat apa yah? qo g ada yg manggil yah hehe
-    public static Food createDefaultFood(int x, int y) {
+    public static Food createDefaultFood() {
+        Random random = new Random();
+        int x = random.nextInt(ZnakeConstants.BOARD_WIDTH - 1);
+        int y = random.nextInt(ZnakeConstants.BOARD_HEIGHT - 1);
         String key = String.format("DefaultFood[%s, %s]", x, y);
         Food food = feedMap.get(key);
         
@@ -89,7 +93,7 @@ public class FoodFactory {
             feedMap.put(key, food);
         }
         
-        ((DefaultFood)food).setPosition(x, y);
+        ((DefaultFood) food).setPosition(x, y);
         
         return food;
     }
