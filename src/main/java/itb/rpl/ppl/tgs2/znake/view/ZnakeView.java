@@ -87,8 +87,8 @@ public class ZnakeView extends javax.swing.JFrame {
         
         setBounds(
             0, 0, 
-            ZnakeConstants.BOARD_WIDTH * ZnakeConstants.DOT_WIDTH,
-            ZnakeConstants.BOARD_HEIGHT * ZnakeConstants.DOT_HEIGHT);
+            (ZnakeConstants.BOARD_WIDTH * ZnakeConstants.DOT_WIDTH) + 20,
+            (ZnakeConstants.BOARD_HEIGHT * ZnakeConstants.DOT_HEIGHT) + 70);
         
     }
 

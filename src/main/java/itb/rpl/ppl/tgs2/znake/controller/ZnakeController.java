@@ -137,6 +137,7 @@ public class ZnakeController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (running) {
             checkFood();
+            checkCollision();
             timer.setDelay(znake.getSpeed());
             znake.move(direction);
         } else {
@@ -256,6 +257,20 @@ public class ZnakeController implements ActionListener {
         }
     }
     
+    /**
+     * Memeriksa tabrakan ular.
+     */
+    public void checkCollision() {
+        int znakeLength = znake.length();
+        ZnakeBodyPart head = znake.getZnakeBodyPart(0);
+        for (int i = 1; i < znakeLength; i++) {
+            if (head.getPosition().equals(znake.getZnakeBodyPart(i).getPosition())) {
+                running = false;
+                //i = znakeLength;
+                break;
+            }
+        }
+    }
     
     public Point getActualPosition(Point position) {
         return new Point(
