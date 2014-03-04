@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package itb.rpl.ppl.tgs2.znake.model.snake;
 
 import itb.rpl.ppl.tgs2.znake.util.ZnakeConstants;
@@ -34,7 +29,7 @@ public class Znake {
 
     public void generateBody(int x, int y, int znakeLength) {
         // ini buat generate body snake
-        // tetapi kalo ada enambahan body atau pengurangan body 
+        // tetapi kalo ada penambahan body atau pengurangan body 
         // body di remove dulu baru di buat lagi dari awal
         
         // baiknya generate body ketika inisialasi
@@ -105,19 +100,23 @@ public class Znake {
      * Menambah panjang si ular.
      */
     public void grow() {
-//        grow = true;
         ZnakeBodyPart zbp = new ZnakeBodyPart();
         zbp.setPosition(
             new Point(bodyParts.get(bodyParts.size() - 1).getPosition())
         );
         bodyParts.add(bodyParts.size() - 1, zbp);
     }
-
-    /*
-    public void justifyZnakePosition(ZnakeBodyPart bodyPart) {
-        justifyZnakePosition(bodyPart.getPosition());
+    
+    /**
+     * Menambah panjang si ular.
+     */
+    public void diet() {
+        bodyParts.remove(bodyParts.size() - 1);
     }
-    */
+    
+//    public void abnormalDirectionEffect() {
+//        directionFlag = ZnakeConstants.DIRECTION_ABNORMAL;
+//    }
     
     /**
      * Mastiin posisi bagian tubuh si ular biar ga menyimpang dari board yang
@@ -168,8 +167,8 @@ public class Znake {
     
     // harusnya return-kan clonenya, biar ga diganti-ganti si positionnya
     public ZnakeBodyPart getZnakeBodyPart(int i) {
-        // return bodyParts.get(i).clone();
-        return bodyParts.get(i);
+        return bodyParts.get(i).clone();
+        //return bodyParts.get(i);
     }
     
     /*

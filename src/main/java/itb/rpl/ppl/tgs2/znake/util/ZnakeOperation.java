@@ -39,18 +39,12 @@ public class ZnakeOperation {
         
     }
     
-    // Biarkan objek ular yang mengurusi pertumbuhannya
     public void addBody() {
-//         ZnakeBodyPart zbp = new ZnakeBodyPart();
-//         zbp.setPosition(
-//                new Point(snakeObj.getZnakeBodyParts().get(snakeObj.getZnakeBodyParts().size() - 1).getPosition())
-//         );
-//         snakeObj.getZnakeBodyParts().add(zbp);
-        Znake.getInstance().grow(); // Sehingga kita lebih ngerti apa maksud ini.
+        Znake.getInstance().grow(); // Biarkan znakenya yang bertumbuh
     }
     
     public void subBody(){
-         //snakeObj.getZnakeBodyParts().remove(snakeObj.getZnakeBodyParts().size() - 1);
+        Znake.getInstance().diet();
     }
     
     public void reverseDirection(){

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package itb.rpl.ppl.tgs2.znake.model.food;
 
 import itb.rpl.ppl.tgs2.znake.util.ZnakeConstants;
@@ -22,8 +16,11 @@ public class ExtraFood implements Food {
         this.effect = new Effect(ZnakeConstants.DEFAULT_SCORE, effectName);
         this.foodName = ZnakeConstants.EXTRA_FOOD;
             // random position 
-        this.position = new Point((int)(Math.random() * ZnakeConstants.BOARD_WIDTH), // value random for x (beetween 0 and limit max board WIDTH)
-                             (int)(Math.random() * ZnakeConstants.BOARD_HEIGHT)); // value random for y (beetween 0 and limit max board HEIGHT)
+        this.position = 
+            new Point(
+                (int)(Math.random() * ZnakeConstants.BOARD_WIDTH), // value random for x (beetween 0 and limit max board WIDTH)
+                (int)(Math.random() * ZnakeConstants.BOARD_HEIGHT) // value random for y (beetween 0 and limit max board HEIGHT)
+            );
     
     }
     

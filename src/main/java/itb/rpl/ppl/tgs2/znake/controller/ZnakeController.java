@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package itb.rpl.ppl.tgs2.znake.controller;
 
 import itb.rpl.ppl.tgs2.znake.model.snake.ZnakeBodyPart;
@@ -30,13 +24,12 @@ import javax.swing.*;
 public class ZnakeController implements ActionListener {
     
     private JPanel board, foodView;
-    private SwingWorker<String, Void> threadMove;
+    //private SwingWorker<String, Void> threadMove;
     private Znake znake;
     private ZnakeOperation operation;
-    private FoodFactory foodFactory;
     private ZBroker broker;
     private Food food;
-    private Random random;
+    //private Random random;
     private Timer timer;
     private Player player;
     private JLabel labelScore;
@@ -135,6 +128,8 @@ public class ZnakeController implements ActionListener {
             //g.drawImage(apple, apple_x, apple_y, this);
             g.setColor(Color.red);
             g.fillRect(p.x, p.y, ZnakeConstants.DOT_WIDTH, ZnakeConstants.DOT_HEIGHT);
+            
+            znake.getZnakeBodyPart(1).getPosition().x = 11;
 
             for (int i = 0; i < znake.length(); i++) {
                 ZnakeBodyPart zbp = znake.getZnakeBodyPart(i);
@@ -161,7 +156,9 @@ public class ZnakeController implements ActionListener {
         }   
     }
     
-    // create default food dipakai ketika initsiaisasi dab makanan sudah dimakan ular
+    /**
+     * Create default food dipakai ketika inisialisasi dan makanan sudah dimakan ular.
+     */
     private Food createDefaultFood() {
         Food food;
         food = FoodFactory.getFoodSnake(ZnakeConstants.NORMAL_EFFECT);
@@ -171,18 +168,18 @@ public class ZnakeController implements ActionListener {
     private void checkFood() {
         ZnakeBodyPart head = znake.getZnakeBodyPart(0);
         
-        if (head.getPosition().equals(food.getPosition())) {     
+        if (head.getPosition().equals(food.getPosition())) {
             if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.NORMAL_EFFECT)){
                 broker.addCommand( new AddBodyCommand(operation));
-            }else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.ADD_BODY_EFFECT)){
+            } else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.ADD_BODY_EFFECT)){
                 broker.addCommand( new AddBodyCommand(operation));
-            }else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.INCREASE_SPEED_EFFECT)){
+            } else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.INCREASE_SPEED_EFFECT)){
                 broker.addCommand( new IncreaseSpeedCommand(operation)); // 
-            }else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.DECREASE_SPEED_EFFECT)){
+            } else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.DECREASE_SPEED_EFFECT)){
                 broker.addCommand( new DecreaseSpeedCommand(operation));
-            }else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.REVERSE_DIRECTION_EFFECT)){
+            } else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.REVERSE_DIRECTION_EFFECT)){
                 broker.addCommand( new ReverseDirection(operation));
-            }else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.SUB_BODY_EFFECT)){
+            } else if (food.getEffect().getEffectName().equalsIgnoreCase(ZnakeConstants.SUB_BODY_EFFECT)){
                 broker.addCommand( new SubBodyCommand(operation));
             }
             broker.addCommand(new PlusScoreCommand(operation, food));
@@ -265,7 +262,7 @@ public class ZnakeController implements ActionListener {
         this.operation = operation;
     }
     
-    // belum ada yg manggil
+    // Dipanggil di view
     public JPanel getPanel() {
         return board;
     }

@@ -1,28 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package itb.rpl.ppl.tgs2.znake.model.snake;
 
-import java.awt.Color;
 import java.awt.Point;
-import javax.swing.*;
 
 /**
  *
  * @author edbert
  */
-public class ZnakeBodyPart {
+public class ZnakeBodyPart implements Cloneable {
     
     private Point position;
     private int from; // asal arah gerakan
     private int to; // tujuan arah gerakan
     
-    public ZnakeBodyPart() {
-        //this.setBackground(Color.red);
-    }
+    public ZnakeBodyPart() { }
     
     public Point getPosition() {
         return position;
@@ -44,4 +34,15 @@ public class ZnakeBodyPart {
         this.to = to;
     }
     
+    @Override
+    public ZnakeBodyPart clone() {
+        ZnakeBodyPart z = null;
+        try {
+            z = (ZnakeBodyPart) super.clone();
+            z.setPosition((Point)position.clone());
+        } catch (CloneNotSupportedException cnse) {
+            
+        }
+        return z;
+    }
 }
