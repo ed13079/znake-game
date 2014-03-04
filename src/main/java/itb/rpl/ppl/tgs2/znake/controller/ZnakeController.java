@@ -10,6 +10,7 @@ import itb.rpl.ppl.tgs2.znake.util.command.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 
 /**
@@ -188,6 +189,35 @@ public class ZnakeController implements ActionListener {
         }   
     }
     
+    public void moveTo(int keyCode) {
+        //ZnakeCommand cmd = null;
+        switch (keyCode) {
+            case KeyEvent.VK_UP:
+                broker.addCommand(
+                    new MoveUpCommand(operation)
+                );
+                break;
+            case KeyEvent.VK_RIGHT:
+                broker.addCommand(
+                    new MoveRightCommand(operation)
+                );
+                break;
+            case KeyEvent.VK_DOWN:
+                broker.addCommand(
+                    new MoveDownCommand(operation)
+                );
+                break;
+            case KeyEvent.VK_LEFT:
+                broker.addCommand(
+                    new MoveLeftCommand(operation)
+                );
+                break;
+            //default:
+                //cmd = new MoveCommand(engine.getZnakeOperation());
+        }
+        broker.executeCommand();
+    }
+    
     /**
      * Create default food dipakai ketika inisialisasi dan makanan sudah dimakan ular.
      */
@@ -305,7 +335,5 @@ public class ZnakeController implements ActionListener {
     public JPanel getPanel() {
         return container;
     }
-
-    
     
 }

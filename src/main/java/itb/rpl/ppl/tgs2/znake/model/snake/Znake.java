@@ -10,13 +10,17 @@ import java.util.*;
  */
 public class Znake {
 
-    private List<ZnakeBodyPart> bodyParts = new ArrayList<ZnakeBodyPart>();
-    private int speed = ZnakeConstants.DEFAULT_SPEED_1;
     private static Znake instance = new Znake();
+    
+    private List<ZnakeBodyPart> bodyParts = new ArrayList<ZnakeBodyPart>();
+    private int direction;
+    private int speed;
     private int directionFlag = ZnakeConstants.DIRECTION_NORMAL;
 //    private boolean grow = false;
     
     private Znake() {
+        direction = ZnakeConstants.NORTH;
+        speed = ZnakeConstants.DEFAULT_SPEED_1;
     }
     
     public static Znake getInstance(){
@@ -176,10 +180,13 @@ public class Znake {
      * Getter and setter 
      */
     
-    // Bahaya kali diginikan, tr kelas lain bisa semena-mena manipulasi objek ular
-//    public List<ZnakeBodyPart> getZnakeBodyParts() {
-//        return bodyParts;
-//    }
+    public int getDirection() {
+        return direction;
+    }
+    
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
     
     public int getSpeed() {
         return speed;
@@ -196,6 +203,5 @@ public class Znake {
     public void setDirectionFlag(int directionFlag) {
         this.directionFlag = directionFlag;
     }
-    
     
 }
